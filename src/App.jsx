@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import {
   ArrowUpRight,
@@ -13,7 +13,8 @@ import {
   Radio,
   Activity,
   TrendingUp,
-  BarChart2
+  BarChart2,
+  ChevronDown
 } from 'lucide-react';
 
 function Navbar() {
@@ -50,6 +51,8 @@ function Navbar() {
 }
 
 function Home() {
+  const [expandedRound, setExpandedRound] = useState(null);
+
   return (
     <div className="animate-fade-in">
       {/* ROW 2: HERO SECTION */}
@@ -161,55 +164,150 @@ function Home() {
       </section>
 
       {/* ROW 5: TIMELINE & ROUNDS */}
-      <section id="timeline" className="grid grid-cols-12 border-b-[1.5px] border-[#111]">
-        <div className="col-span-12 border-b-[1.5px] border-[#111] p-6 md:p-8 bg-[#111] text-white flex flex-col sm:flex-row sm:justify-between items-start sm:items-end gap-2">
+      <section id="timeline" className="flex flex-col border-b-[1.5px] border-[#111]">
+        <div className="border-b-[1.5px] border-[#111] p-6 md:p-8 bg-[#111] text-white flex flex-col sm:flex-row sm:justify-between items-start sm:items-end gap-2">
           <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter">The Battle Plan</h2>
           <span className="text-xs font-bold tracking-widest uppercase opacity-50">3 Phases to Win</span>
         </div>
 
-        {/* Round 1 */}
-        <div className="col-span-12 lg:col-span-4 border-b-[1.5px] lg:border-b-0 lg:border-r-[1.5px] border-[#111] p-8 hover:bg-[#F4F4F0] transition-colors animate-slide-up delay-100 opacity-0">
-          <div className="inline-flex items-center gap-2 border-[1.5px] border-[#111] px-3 py-1 bg-white uppercase font-bold text-[10px] tracking-widest mb-6 shadow-[2px_2px_0px_0px_rgba(17,17,17,1)] text-[#111]">
-            <Calendar size={12} /> March 14th
-          </div>
-          <h3 className="text-3xl font-black uppercase tracking-tighter mb-2">Round 1</h3>
-          <div className="text-sm font-bold uppercase tracking-widest text-[#ee6030] mb-6">The Pitch & Plan</div>
-          <p className="text-base font-medium leading-relaxed text-[#444] mb-6">
-            Pick your poison (1 of 4 problem statements). Map your architecture, craft an execution strategy, and post your manifesto on LinkedIn to prove you exist.
-          </p>
-          <div className="text-xs font-bold uppercase tracking-widest bg-[#111] text-white p-2 inline-block">
-            Qualifying Round
-          </div>
-        </div>
+        {/* Vertical Accordion Container */}
+        <div className="flex flex-col w-full">
 
-        {/* Round 2 */}
-        <div className="col-span-12 lg:col-span-4 border-b-[1.5px] lg:border-b-0 lg:border-r-[1.5px] border-[#111] p-8 hover:bg-[#F4F4F0] transition-colors animate-slide-up delay-200 opacity-0">
-          <div className="inline-flex items-center gap-2 border-[1.5px] border-[#111] px-3 py-1 bg-white uppercase font-bold text-[10px] tracking-widest mb-6 shadow-[2px_2px_0px_0px_rgba(17,17,17,1)] text-[#111]">
-            <Calendar size={12} /> March 16th - 22nd
-          </div>
-          <h3 className="text-3xl font-black uppercase tracking-tighter mb-2">Round 2</h3>
-          <div className="text-sm font-bold uppercase tracking-widest text-[#ee6030] mb-6">The Technical Prototype</div>
-          <p className="text-base font-medium leading-relaxed text-[#444] mb-6">
-            Stop talking and start building. Develop a working engine. Judged purely by startup founders on core functionality, robustness, and how well you pitch it.
-          </p>
-          <div className="text-xs font-bold uppercase tracking-widest border-[1.5px] border-[#111] p-2 inline-block">
-            40% of Final Score
-          </div>
-        </div>
+          {/* Round 1 */}
+          <div
+            onClick={() => setExpandedRound(expandedRound === 1 ? null : 1)}
+            className={`w-full border-b-[1.5px] border-[#111] transition-colors cursor-pointer group ${expandedRound === 1 ? 'bg-[#F4F4F0]' : 'bg-white hover:bg-[#F4F4F0]'}`}
+          >
+            {/* Header Row */}
+            <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative">
+              <div className="flex-shrink-0 w-32 md:w-48 border-[1.5px] border-[#111] bg-white p-2 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] flex items-center justify-center gap-2 font-bold uppercase text-[12px] tracking-widest">
+                <Calendar size={14} className="text-[#ee6030] mb-[2px]" /> March 14th
+              </div>
+              <div className="flex-1">
+                <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-1">Round 1: The Pitch & Plan</h3>
+                <div className="text-xs font-bold uppercase tracking-widest text-[#ee6030]">Qualifying Phase</div>
+              </div>
+              <div className="absolute top-6 right-6 md:static">
+                <ChevronDown size={32} className={`transform transition-transform duration-300 opacity-30 group-hover:opacity-100 ${expandedRound === 1 ? 'rotate-180 opacity-100 text-[#ee6030]' : ''}`} />
+              </div>
+            </div>
 
-        {/* Round 3 */}
-        <div className="col-span-12 lg:col-span-4 p-8 hover:bg-[#F4F4F0] transition-colors bg-[#F4F4F0] animate-slide-up delay-300 opacity-0">
-          <div className="inline-flex items-center gap-2 border-[1.5px] border-[#111] px-3 py-1 bg-[#ee6030] text-white uppercase font-bold text-[10px] tracking-widest mb-6 shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">
-            <Calendar size={12} /> March 28th - 29th
+            {/* Expandable Content */}
+            <div className={`grid transition-all duration-300 ease-in-out ${expandedRound === 1 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+              <div className="overflow-hidden">
+                <div className="p-6 md:p-8 pt-0 md:pt-0 lg:ml-56 md:ml-[13.5rem] border-t-[1.5px] border-[#111] md:border-t-0">
+                  <p className="text-lg md:text-xl font-medium leading-relaxed text-[#111] mb-8 mt-6">
+                    Pick your poison (1 of 4 problem statements). Map your architecture, craft an execution strategy, and post your manifesto on LinkedIn to prove you exist.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(238,96,48,1)]">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] border-b-[1.5px] border-[#333] pb-2 mb-4">Required Deliverable</div>
+                      <p className="text-sm font-medium">A detailed architecture diagram, tech stack selection, and go-to-market strategy document.</p>
+                    </div>
+                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(238,96,48,1)]">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] border-b-[1.5px] border-[#333] pb-2 mb-4">Public Commitment</div>
+                      <p className="text-sm font-medium">Team must publish their intent and chosen problem statement clearly on LinkedIn.</p>
+                    </div>
+                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(238,96,48,1)]">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] border-b-[1.5px] border-[#333] pb-2 mb-4">Core Evaluation</div>
+                      <p className="text-sm font-medium">Viability of the idea, depth of the technical plan, and clarity of the target audience.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <h3 className="text-3xl font-black uppercase tracking-tighter mb-2">Round 3</h3>
-          <div className="text-sm font-bold uppercase tracking-widest text-[#ee6030] mb-6">The Traction Test</div>
-          <p className="text-base font-medium leading-relaxed text-[#444] mb-6">
-            The market decides your fate. Launch publicly. Hustle for real user reviews, social media reach, and prove that people actually want what you built.
-          </p>
-          <div className="text-xs font-bold uppercase tracking-widest bg-[#ee6030] text-white border-[1.5px] border-[#111] p-2 inline-block shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">
-            60% of Final Score
+
+          {/* Round 2 */}
+          <div
+            onClick={() => setExpandedRound(expandedRound === 2 ? null : 2)}
+            className={`w-full border-b-[1.5px] border-[#111] transition-colors cursor-pointer group ${expandedRound === 2 ? 'bg-[#F4F4F0]' : 'bg-white hover:bg-[#F4F4F0]'}`}
+          >
+            {/* Header Row */}
+            <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative">
+              <div className="flex-shrink-0 w-32 md:w-48 border-[1.5px] border-[#111] bg-white p-2 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] flex items-center justify-center gap-2 font-bold uppercase text-[12px] tracking-widest">
+                <Calendar size={14} className="text-[#ee6030] mb-[2px]" /> Mar 16th - 22nd
+              </div>
+              <div className="flex-1">
+                <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-1">Round 2: The Tech Prototype</h3>
+                <div className="text-xs font-bold uppercase tracking-widest text-[#ee6030]">40% of Final Score</div>
+              </div>
+              <div className="absolute top-6 right-6 md:static">
+                <ChevronDown size={32} className={`transform transition-transform duration-300 opacity-30 group-hover:opacity-100 ${expandedRound === 2 ? 'rotate-180 opacity-100 text-[#ee6030]' : ''}`} />
+              </div>
+            </div>
+
+            {/* Expandable Content */}
+            <div className={`grid transition-all duration-300 ease-in-out ${expandedRound === 2 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+              <div className="overflow-hidden">
+                <div className="p-6 md:p-8 pt-0 md:pt-0 lg:ml-56 md:ml-[13.5rem] border-t-[1.5px] border-[#111] md:border-t-0">
+                  <p className="text-lg md:text-xl font-medium leading-relaxed text-[#111] mb-8 mt-6">
+                    Stop talking and start building. Develop a working engine. Judged purely by startup founders on core functionality, robustness, and how well you pitch it.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-[#666] border-b-[1.5px] border-[#333] pb-2 mb-4">Required Deliverable</div>
+                      <p className="text-sm font-medium">A functional MVP deployed live. It doesn't need to be pretty, but the core mechanic *must* work.</p>
+                    </div>
+                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-[#666] border-b-[1.5px] border-[#333] pb-2 mb-4">The Pitch</div>
+                      <p className="text-sm font-medium">A 3-minute video demonstrating the product and explaining the technical architecture.</p>
+                    </div>
+                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-[#666] border-b-[1.5px] border-[#333] pb-2 mb-4">Core Evaluation</div>
+                      <p className="text-sm font-medium">Code quality, system robustness, execution speed, and direct feedback from the founder jury.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+
+          {/* Round 3 */}
+          <div
+            onClick={() => setExpandedRound(expandedRound === 3 ? null : 3)}
+            className={`w-full transition-colors cursor-pointer group ${expandedRound === 3 ? 'bg-[rgba(238,96,48,0.1)]' : 'bg-[#ee6030]'}`}
+          >
+            {/* Header Row */}
+            <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative">
+              <div className={`flex-shrink-0 w-32 md:w-48 border-[1.5px] border-[#111] p-2 flex items-center justify-center gap-2 font-bold uppercase text-[12px] tracking-widest shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] ${expandedRound === 3 ? 'bg-[#ee6030] text-white' : 'bg-white text-[#111]'}`}>
+                <Calendar size={14} className={expandedRound === 3 ? 'text-white mb-[2px]' : 'text-[#ee6030] mb-[2px]'} /> Mar 23th - 29th
+              </div>
+              <div className="flex-1">
+                <h3 className={`text-2xl md:text-4xl font-black uppercase tracking-tighter mb-1 ${expandedRound === 3 ? 'text-[#111]' : 'text-white'}`}>Round 3: The Traction Test</h3>
+                <div className={`text-xs font-bold uppercase tracking-widest ${expandedRound === 3 ? 'text-[#ee6030]' : 'text-[#111]'}`}>60% of Final Score</div>
+              </div>
+              <div className="absolute top-6 right-6 md:static">
+                <ChevronDown size={32} className={`transform transition-transform duration-300 opacity-30 group-hover:opacity-100 ${expandedRound === 3 ? 'rotate-180 opacity-100 text-[#ee6030]' : 'text-[#111]'}`} />
+              </div>
+            </div>
+
+            {/* Expandable Content */}
+            <div className={`grid transition-all duration-300 ease-in-out ${expandedRound === 3 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+              <div className="overflow-hidden">
+                <div className="p-6 md:p-8 pt-0 md:pt-0 lg:ml-56 md:ml-[13.5rem] border-t-[1.5px] border-[#ee6030] md:border-t-0">
+                  <p className="text-lg md:text-xl font-medium leading-relaxed text-[#111] mb-8 mt-6">
+                    The market decides your fate. Launch publicly. Hustle for real user reviews, social media reach, and prove that people actually want what you built.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] border-b-[1.5px] border-[#333] pb-2 mb-4">The Launch</div>
+                      <p className="text-sm font-medium">Public release of the application. Go-to-market strategies go live.</p>
+                    </div>
+                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] transform md:-rotate-1">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] border-b-[1.5px] border-[#333] pb-2 mb-4">The Hustle</div>
+                      <p className="text-sm font-medium">Drive traffic, get actual signups, harvest real user reviews, and generate noise on social platforms.</p>
+                    </div>
+                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]">
+                      <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] border-b-[1.5px] border-[#333] pb-2 mb-4">Core Evaluation</div>
+                      <p className="text-sm font-medium">Hard metrics. Number of active users, organic engagement, and proof of real-world traction.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
