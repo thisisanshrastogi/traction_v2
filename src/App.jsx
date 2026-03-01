@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import {
   ArrowUpRight,
@@ -52,6 +52,17 @@ function Navbar() {
 
 function Home() {
   const [expandedRound, setExpandedRound] = useState(null);
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://apply.devfolio.co/v2/sdk.js';
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   return (
     <div className="animate-fade-in">
@@ -367,10 +378,14 @@ function Home() {
         <div className="col-span-12 border-b-[1.5px] border-[#111] p-6 text-center">
           <h2 className="text-2xl font-black uppercase tracking-widest">Powered By</h2>
         </div>
-        <div className="col-span-12 p-12 md:p-24 flex items-center justify-center grayscale hover:grayscale-0 transition-all bg-[#F4F4F0]">
-          <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
-            <img src="https://exampreptool.com/img/logo.png" alt="Exampreptool" className="h-24 md:h-32 w-auto object-contain" />
-            <span className="font-black text-4xl md:text-6xl tracking-tighter text-[#111]">Exampreptool</span>
+        <div className="col-span-12 p-12 md:p-20 flex flex-col md:flex-row items-center justify-center gap-12 md:gap-32 grayscale hover:grayscale-0 transition-all bg-[#F4F4F0]">
+          <div className="flex items-center gap-4 md:gap-6">
+            <img src="https://exampreptool.com/img/logo.png" alt="Exampreptool" className="h-16 md:h-20 w-auto object-contain" />
+            <span className="font-black text-3xl md:text-5xl tracking-tighter text-[#111]">Exampreptool</span>
+          </div>
+          <div className="flex items-center gap-4 md:gap-6">
+            <img src="/devfolio_logo.png" alt="Devfolio" className="h-16 md:h-20 w-auto object-contain" />
+            {/* <span className="font-black text-3xl md:text-5xl tracking-tighter text-[#111]">Devfolio</span> */}
           </div>
         </div>
       </section>

@@ -95,3 +95,17 @@ body {
 .delay-500 {
   animation-delay: 500ms;
 }
+
+/* Devfolio Button Reset */
+.apply-button,
+.apply-button>div,
+.apply-button * {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Ensure images in sponsors don't inherit borders */
+.grayscale img {
+  border: none !important;
+}
