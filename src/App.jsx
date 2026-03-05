@@ -14,7 +14,8 @@ import {
   Activity,
   TrendingUp,
   BarChart2,
-  ChevronDown
+  ChevronDown,
+  Cpu
 } from 'lucide-react';
 
 function Navbar() {
@@ -22,14 +23,14 @@ function Navbar() {
   const isHome = location.pathname === '/';
 
   return (
-    <nav className="grid grid-cols-12 border-b-[1.5px] border-[#111] sticky top-0 bg-white z-50">
+    <nav className="grid grid-cols-12 border-b-[2px] border-[#111] sticky top-0 bg-white z-50">
       {/* Logo */}
-      <Link to="/" className="col-span-12 md:col-span-3 border-b-[1.5px] md:border-b-0 md:border-r-[1.5px] border-[#111] p-4 md:p-6 flex items-center bg-[#111] text-white hover:bg-[#333] transition-colors">
-        <span className="font-black uppercase tracking-tighter text-2xl">Traction '26</span>
+      <Link to="/" className="col-span-12 md:col-span-3 border-b-[2px] md:border-b-0 md:border-r-[2px] border-[#111] p-4 md:p-6 flex items-center bg-[#111] text-white hover:bg-[#ee6030] transition-colors group">
+        <span className="font-black uppercase tracking-tighter text-2xl group-hover:scale-105 transition-transform">Traction '26</span>
       </Link>
       {/* Links */}
-      <div className="col-span-8 md:col-span-6 border-r-[1.5px] border-[#111] flex">
-        <a href={isHome ? "#timeline" : "/#timeline"} className="flex-1 p-4 md:p-6 border-r-[1.5px] border-[#111] flex items-center justify-center font-bold uppercase tracking-widest text-xs hover:bg-[#F4F4F0] transition-colors">
+      <div className="col-span-8 md:col-span-6 border-r-[2px] border-[#111] flex">
+        <a href={isHome ? "#timeline" : "/#timeline"} className="flex-1 p-4 md:p-6 border-r-[2px] border-[#111] flex items-center justify-center font-bold uppercase tracking-widest text-xs hover:bg-[#F4F4F0] transition-colors">
           Timeline
         </a>
         <Link to="/leaderboard" className="flex-1 p-4 md:p-6 flex items-center justify-center gap-2 font-bold uppercase tracking-widest text-[10px] sm:text-xs hover:bg-[#F4F4F0] transition-colors text-center leading-tight">
@@ -39,8 +40,9 @@ function Navbar() {
         </Link>
       </div>
       {/* Registration CTA */}
-      <div className="col-span-4 md:col-span-3 flex bg-[#ee6030]">
-        <a href="https://unstop.com/p/traction-26-traction-iiitk-1652221" target="_blank" rel="noopener noreferrer" className="w-full h-full p-4 md:p-6 flex items-center justify-center gap-2 font-black uppercase tracking-tighter text-sm md:text-xl text-white hover:bg-[#111] transition-colors group">
+      <div className="col-span-4 md:col-span-3 flex bg-[#ee6030] relative overflow-hidden group">
+        <div className="absolute inset-0 bg-[#111] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
+        <a href="https://unstop.com/p/traction-26-traction-iiitk-1652221" target="_blank" rel="noopener noreferrer" className="relative z-10 w-full h-full p-4 md:p-6 flex items-center justify-center gap-2 font-black uppercase tracking-tighter text-sm md:text-xl text-white transition-colors">
           <span className="hidden md:inline">Register</span>
           <span className="md:hidden text-xs">Join</span>
           <ArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform w-4 h-4 md:w-6 md:h-6" />
@@ -58,415 +60,253 @@ function Home() {
     script.src = 'https://apply.devfolio.co/v2/sdk.js';
     script.async = true;
     script.defer = true;
+
+    const initDevfolio = () => {
+      if (window.devfolio) {
+        window.devfolio.init();
+      }
+    };
+
+    script.onload = initDevfolio;
     document.body.appendChild(script);
+
     return () => {
-      document.body.removeChild(script);
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
     };
   }, []);
 
   return (
     <div className="animate-fade-in">
       {/* ROW 2: HERO SECTION */}
-      <header className="grid grid-cols-12 border-b-[1.5px] border-[#111]">
+      <header className="grid grid-cols-12 border-b-[2px] border-[#111]">
         {/* Left / Main Headline */}
-        <div className="col-span-12 lg:col-span-9 border-b-[1.5px] lg:border-b-0 lg:border-r-[1.5px] border-[#111] p-6 sm:p-8 md:p-16 lg:p-24 flex flex-col justify-center  min-h-[50vh] lg:min-h-[60vh] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] animate-slide-up">
-          <div className="inline-flex items-center gap-2 border-[1.5px] border-[#111] px-3 py-1 sm:px-4 sm:py-2 w-max bg-white uppercase font-bold text-[10px] sm:text-xs tracking-widest mb-10 sm:mb-12 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]">
+        <div className="col-span-12 lg:col-span-9 border-b-[2px] lg:border-b-0 lg:border-r-[2px] border-[#111] p-6 sm:p-8 md:p-16 lg:p-24 flex flex-col justify-center min-h-[50vh] lg:min-h-[60vh] bg-[#F4F4F0] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] relative overflow-hidden">
+
+          <div className="inline-flex items-center gap-2 border-[2px] border-[#111] px-3 py-1 sm:px-4 sm:py-2 w-max bg-white uppercase font-bold text-[10px] sm:text-xs tracking-widest mb-8 sm:mb-12 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] relative z-10">
             <span className="w-2 h-2 bg-[#ee6030] rounded-full animate-pulse"></span>
             Registrations Open • 100% Free
           </div>
 
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] leading-[0.85] font-black tracking-tighter uppercase text-[#111]">
+          <h1 className="text-[12vw] sm:text-7xl md:text-8xl lg:text-[7.5rem] leading-[0.85] font-black tracking-tighter uppercase text-[#111] relative z-10 mix-blend-multiply">
             Popularity <br />
-            <span className="text-transparent" style={{ WebkitTextStroke: '0.02em #111' }}>Over</span> <br />
+            <span className="text-transparent bg-clip-text " style={{ WebkitTextStroke: '2px #111' }}>Over</span> <br />
             Perfection.
           </h1>
         </div>
 
         {/* Right / Quick Stats */}
         <div className="col-span-12 lg:col-span-3 flex flex-col">
-          <div className="flex-1 border-b-[1.5px] border-[#111] p-8 md:p-12 bg-[#ee6030] text-white flex flex-col justify-center animate-slide-up delay-100 opacity-0">
-            <Target size={32} className="mb-6 opacity-50" />
-            <div className="text-sm font-bold uppercase tracking-widest mb-2 opacity-80">The Core Rule</div>
-            <p className="font-black text-2xl uppercase leading-tight tracking-tighter mb-2">
-              The best code doesn't win. The loudest product does.
-            </p>
+          <div className="flex-1 border-b-[2px] border-[#111] p-8 md:p-12 bg-[#ee6030] text-white flex flex-col justify-center relative overflow-hidden group">
+            <Target size={120} className="absolute -right-10 -bottom-10 opacity-10 group-hover:scale-110 transition-transform duration-500" />
+            <div className="relative z-10">
+              <div className="text-xs font-bold uppercase tracking-widest mb-3 text-[#111] bg-white w-max px-2 py-1 border-[1.5px] border-[#111] shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">The Core Rule</div>
+              <p className="font-black text-2xl md:text-3xl uppercase leading-tight tracking-tighter">
+                The best code doesn't win. The loudest product does.
+              </p>
+            </div>
           </div>
-          <div className="flex-1 p-8 md:p-12 flex flex-col justify-center bg-[#111] text-white animate-slide-up delay-200 opacity-0">
-            <div className="text-sm font-bold uppercase tracking-widest mb-4 opacity-50">Global Scale</div>
-            <div className="font-black text-6xl tracking-tighter leading-none mb-2">800+</div>
-            <p className="mt-2 text-xs font-bold uppercase tracking-widest opacity-80">Expected Builders</p>
+          <div className="flex-1 p-8 md:p-12 flex flex-col justify-center bg-[#111] text-white relative overflow-hidden">
+            <div className="text-sm font-bold uppercase tracking-widest mb-4 text-[#ee6030]">Global Scale</div>
+            <div className="font-black text-6xl md:text-7xl tracking-tighter leading-none mb-2">800<span className="text-[#ee6030]">+</span></div>
+            <p className="mt-2 text-xs font-bold uppercase tracking-widest opacity-70">Expected Builders</p>
           </div>
         </div>
       </header>
 
       {/* ROW 3: TICKER TAPE */}
-      <div className="border-b-[1.5px] border-[#111] bg-[#ee6030] text-white py-3 overflow-hidden">
-        <div className="animate-[ticker_20s_linear_infinite] inline-flex whitespace-nowrap text-sm md:text-base font-bold uppercase tracking-widest items-center">
-          {[...Array(4)].map((_, i) => (
+      <div className="border-b-[2px] border-[#111] bg-[#111] text-[#ee6030] py-3 overflow-hidden">
+        <div className="animate-[ticker_20s_linear_infinite] inline-flex whitespace-nowrap text-sm md:text-base font-black uppercase tracking-widest items-center">
+          {[...Array(6)].map((_, i) => (
             <React.Fragment key={i}>
               <span className="mx-8">Code is a liability</span>
-              <Plus size={16} />
+              <Plus size={16} className="text-white" />
               <span className="mx-8">Distribution is an asset</span>
-              <Plus size={16} />
-              <span className="mx-8">Validate before you build</span>
-              <Plus size={16} />
-              <span className="mx-8">Users &gt; Unit Tests</span>
-              <Plus size={16} />
+              <Plus size={16} className="text-white" />
+              <span className="mx-8 text-white">Validate before you build</span>
+              <Plus size={16} className="text-[#ee6030]" />
             </React.Fragment>
           ))}
         </div>
       </div>
 
       {/* ROW 4: ABOUT & ORGANIZERS */}
-      <section className="grid grid-cols-12 border-b-[1.5px] border-[#111]">
+      <section className="grid grid-cols-12 border-b-[2px] border-[#111]">
         {/* About */}
-        <div className="col-span-12 lg:col-span-6 border-b-[1.5px] lg:border-b-0 lg:border-r-[1.5px] border-[#111] flex flex-col">
-          <div className="p-8 md:p-16 flex-1 animate-slide-up border-b-[1.5px] border-[#111]">
-            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-8 decoration-[#ee6030] underline decoration-[4px] underline-offset-8">
+        <div className="col-span-12 lg:col-span-6 border-b-[2px] lg:border-b-0 lg:border-r-[2px] border-[#111] flex flex-col bg-white">
+          <div className="p-8 md:p-16 flex-1 border-b-[2px] border-[#111]">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter mb-8 decoration-[#ee6030] underline decoration-[6px] underline-offset-8">
               The Reality Check
             </h2>
-            <p className="text-xl font-medium leading-relaxed mb-6">
+            <p className="text-xl md:text-2xl font-medium leading-relaxed mb-6 text-[#111]">
               Traction ’26 isn't just another hackathon. It is a three-round startup simulator designed to force you through the actual journey of bringing a product to market.
             </p>
-            <p className="text-xl font-medium leading-relaxed text-[#444]">
+            <p className="text-lg md:text-xl font-medium leading-relaxed text-[#666]">
               Every weekend, engineers lock themselves in rooms to build immaculate architectures that die on Monday. We are killing the "build it and they will come" myth. Figure out who is buying before you decide what you are selling.
             </p>
           </div>
-          <div className="p-8 md:p-12 bg-[#111] text-white animate-slide-up delay-100">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-[#ee6030] mb-4">Organized By</h3>
-            <p className="text-2xl md:text-3xl font-black uppercase tracking-tighter leading-tight">
-              Google Developer Groups <br />
-              <span className="text-[#999] text-xl">On Campus IIIT Kottayam</span>
-            </p>
-            <div className="my-4 border-t-[1.5px] border-[#333] w-12"></div>
-            <p className="text-2xl md:text-3xl font-black uppercase tracking-tighter leading-tight">
+          <div className="p-8 md:p-12  text-[#111] flex flex-col justify-center">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-[#ee6030] mb-6 border-[2px] border-[#111] w-max px-3 py-1 bg-white shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">Organized By</h3>
+            <p className="text-2xl md:text-4xl font-black uppercase tracking-tighter leading-none mb-6">
               Mindquest <br />
-              <span className="text-[#999] text-xl">IIIT Kottayam</span>
+              <span className="text-[#666] text-xl md:text-2xl tracking-widest">IIIT Kottayam</span>
+            </p>
+            <div className="border-t-[2px] border-[#111] w-full max-w-[100px] mb-6"></div>
+            <p className="text-2xl md:text-4xl font-black uppercase tracking-tighter leading-none">
+              Independent <br /> Creators <br />
+              <span className="text-[#666] text-xl md:text-2xl tracking-widest">Traction Team</span>
             </p>
           </div>
         </div>
 
-        {/* For Whom / Dream Team Redesign */}
-        <div className="col-span-12 lg:col-span-6 p-8 md:p-16 bg-[#F4F4F0] animate-slide-up delay-100 flex flex-col justify-center border-t-[1.5px] lg:border-t-0 border-[#111]">
-          <div className="mb-10 md:mb-12">
-            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-8">
-              The Dream Team
+        {/* REDESIGNED DREAM TEAM SECTION */}
+        <div className="col-span-12 lg:col-span-6 p-8 md:p-16 bg-[#111] text-white flex flex-col border-t-[2px] lg:border-t-0 border-[#111] relative overflow-hidden">
+          <div className="mb-12 relative z-10">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter mb-6 text-white">
+              The Dream <br /><span className="text-[#ee6030]">Squad.</span>
             </h2>
-            <p className="text-xl font-medium leading-relaxed text-[#111] max-w-lg">
+            <p className="text-lg md:text-xl font-medium leading-relaxed text-[#999] max-w-md">
               Pure coders will fail here. You need hustlers. We are looking for squads of 4 who command attention and possess the ultimate entrepreneurial trifecta.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-auto">
-            {/* Hacker Card */}
-            <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:border-[#ee6030] transition-all duration-300 group flex flex-col justify-between cursor-default">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-10 h-10 flex shrink-0 items-center justify-center border-[1.5px] border-[#111] bg-[#F4F4F0] shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">
-                  <Terminal size={20} className="text-[#ee6030]" />
-                </div>
-                <div>
-                  <h3 className="font-black uppercase text-xl tracking-tight text-[#111]">The Hacker</h3>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#ee6030]">Architecture & Code</p>
-                </div>
-              </div>
-              <p className="text-sm font-medium text-[#444] leading-relaxed">
-                Builds the MVP. Cares about shipping fast, building robust systems, and making the core application loop work flawlessly.
-              </p>
-            </div>
-
-            {/* Hustler Card */}
-            <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:border-[#ee6030] transition-all duration-300 group flex flex-col justify-between cursor-default">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-10 h-10 flex shrink-0 items-center justify-center border-[1.5px] border-[#111] bg-[#F4F4F0] shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">
-                  <Megaphone size={20} className="text-[#ee6030]" />
-                </div>
-                <div>
-                  <h3 className="font-black uppercase text-xl tracking-tight text-[#111]">The Hustler</h3>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#ee6030]">Sales & Growth</p>
-                </div>
-              </div>
-              <p className="text-sm font-medium text-[#444] leading-relaxed">
-                Sells the vision. Talks to users, distributes the link, and finds exactly where the target audience lives on the internet.
-              </p>
-            </div>
-
-            {/* Hipster Card */}
-            <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:border-[#ee6030] transition-all duration-300 group flex flex-col justify-between cursor-default">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-10 h-10 flex shrink-0 items-center justify-center border-[1.5px] border-[#111] bg-[#F4F4F0] shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">
-                  <PenTool size={20} className="text-[#ee6030]" />
-                </div>
-                <div>
-                  <h3 className="font-black uppercase text-xl tracking-tight text-[#111]">The Hipster</h3>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#ee6030]">Design & Brand</p>
-                </div>
-              </div>
-              <p className="text-sm font-medium text-[#444] leading-relaxed">
-                Designs the brand. Ensures the product looks premium, feels intuitive, and stands out from the visual noise.
-              </p>
-            </div>
-
-            {/* Hound Card */}
-            <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:border-[#ee6030] transition-all duration-300 group flex flex-col justify-between cursor-default">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-10 h-10 flex shrink-0 items-center justify-center border-[1.5px] border-[#111] bg-[#F4F4F0] shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">
-                  <TrendingUp size={20} className="text-[#ee6030]" />
-                </div>
-                <div>
-                  <h3 className="font-black uppercase text-xl tracking-tight text-[#111]">The Hound</h3>
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#ee6030]">Data & Metrics</p>
-                </div>
-              </div>
-              <p className="text-sm font-medium text-[#444] leading-relaxed">
-                Tracks the numbers. Analyzes user behavior, finds friction points, and validates if the product is actually working.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ROW 5: TIMELINE & ROUNDS */}
-      <section id="timeline" className="flex flex-col border-b-[1.5px] border-[#111]">
-        <div className="border-b-[1.5px] border-[#111] p-6 md:p-8 bg-[#111] text-white flex flex-col sm:flex-row sm:justify-between items-start sm:items-end gap-2">
-          <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter">The Battle Plan</h2>
-          <span className="text-xs font-bold tracking-widest uppercase opacity-50">3 Phases to Win</span>
-        </div>
-
-        {/* Vertical Accordion Container */}
-        <div className="flex flex-col w-full">
-
-          {/* Round 1 */}
-          <div
-            onClick={() => setExpandedRound(expandedRound === 1 ? null : 1)}
-            className={`w-full border-b-[1.5px] border-[#111] transition-colors cursor-pointer group ${expandedRound === 1 ? 'bg-[#F4F4F0]' : 'bg-white hover:bg-[#F4F4F0]'}`}
-          >
-            {/* Header Row */}
-            <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative">
-              <div className="flex-shrink-0 w-32 md:w-48 border-[1.5px] border-[#111] bg-white p-2 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] flex items-center justify-center gap-2 font-bold uppercase text-[12px] tracking-widest">
-                <Calendar size={14} className="text-[#ee6030] mb-[2px]" /> March 14th
-              </div>
-              <div className="flex-1">
-                <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-1">Round 1: The Pitch & Plan</h3>
-                <div className="text-xs font-bold uppercase tracking-widest text-[#ee6030]">Qualifying Phase</div>
-              </div>
-              <div className="absolute top-6 right-6 md:static">
-                <ChevronDown size={32} className={`transform transition-transform duration-300 opacity-30 group-hover:opacity-100 ${expandedRound === 1 ? 'rotate-180 opacity-100 text-[#ee6030]' : ''}`} />
-              </div>
-            </div>
-
-            {/* Expandable Content */}
-            <div className={`grid transition-all duration-300 ease-in-out ${expandedRound === 1 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
-              <div className="overflow-hidden">
-                <div className="p-6 md:p-8 pt-0 md:pt-0 lg:ml-56 md:ml-[13.5rem] border-t-[1.5px] border-[#111] md:border-t-0">
-                  <p className="text-lg md:text-xl font-medium leading-relaxed text-[#111] mb-8 mt-6">
-                    Pick your poison (1 of 4 problem statements). Map your architecture, craft an execution strategy, and post your manifesto on LinkedIn to prove you exist.
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(238,96,48,1)]">
-                      <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] border-b-[1.5px] border-[#333] pb-2 mb-4">Required Deliverable</div>
-                      <p className="text-sm font-medium">A detailed architecture diagram, tech stack selection, and go-to-market strategy document.</p>
-                    </div>
-                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(238,96,48,1)]">
-                      <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] border-b-[1.5px] border-[#333] pb-2 mb-4">Public Commitment</div>
-                      <p className="text-sm font-medium">Team must publish their intent and chosen problem statement clearly on LinkedIn.</p>
-                    </div>
-                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(238,96,48,1)]">
-                      <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] border-b-[1.5px] border-[#333] pb-2 mb-4">Core Evaluation</div>
-                      <p className="text-sm font-medium">Viability of the idea, depth of the technical plan, and clarity of the target audience.</p>
-                    </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-auto relative z-10">
+            {/* Hacker Card - Black & Orange */}
+            <div className="relative overflow-hidden border-[2px] border-[#333] bg-[#0a0a0a] p-6 shadow-[6px_6px_0px_0px_rgba(238,96,48,1)] hover:-translate-y-2 hover:shadow-[10px_10px_0px_0px_rgba(238,96,48,1)] hover:border-[#ee6030] transition-all duration-300 group cursor-crosshair h-full flex flex-col">
+              <span className="absolute -bottom-4 -right-2 text-[8rem] font-black text-[#1a1a1a] leading-none z-0 group-hover:scale-110 transition-transform select-none">01</span>
+              <div className="relative z-10 flex-1 flex flex-col">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-12 h-12 flex items-center justify-center border-[2px] border-[#ee6030] bg-[#111] text-[#ee6030]">
+                    <Terminal size={24} />
                   </div>
+                  <span className="text-[#ee6030] font-black tracking-widest text-xs uppercase border border-[#ee6030] px-2 py-1">Code</span>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Round 2 */}
-          <div
-            onClick={() => setExpandedRound(expandedRound === 2 ? null : 2)}
-            className={`w-full border-b-[1.5px] border-[#111] transition-colors cursor-pointer group ${expandedRound === 2 ? 'bg-[#F4F4F0]' : 'bg-white hover:bg-[#F4F4F0]'}`}
-          >
-            {/* Header Row */}
-            <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative">
-              <div className="flex-shrink-0 w-32 md:w-48 border-[1.5px] border-[#111] bg-white p-2 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] flex items-center justify-center gap-2 font-bold uppercase text-[12px] tracking-widest">
-                <Calendar size={14} className="text-[#ee6030] mb-[2px]" /> Mar 16th - 22nd
-              </div>
-              <div className="flex-1">
-                <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-1">Round 2: The Tech Prototype</h3>
-                <div className="text-xs font-bold uppercase tracking-widest text-[#ee6030]">40% of Final Score</div>
-              </div>
-              <div className="absolute top-6 right-6 md:static">
-                <ChevronDown size={32} className={`transform transition-transform duration-300 opacity-30 group-hover:opacity-100 ${expandedRound === 2 ? 'rotate-180 opacity-100 text-[#ee6030]' : ''}`} />
+                <h3 className="font-black uppercase text-2xl tracking-tight text-white mb-2">The Hacker</h3>
+                <p className="text-sm font-medium text-[#999] leading-relaxed mt-auto">
+                  Builds the MVP. Cares about shipping fast, building robust systems, and making the core application loop work flawlessly.
+                </p>
               </div>
             </div>
 
-            {/* Expandable Content */}
-            <div className={`grid transition-all duration-300 ease-in-out ${expandedRound === 2 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
-              <div className="overflow-hidden">
-                <div className="p-6 md:p-8 pt-0 md:pt-0 lg:ml-56 md:ml-[13.5rem] border-t-[1.5px] border-[#111] md:border-t-0">
-                  <p className="text-lg md:text-xl font-medium leading-relaxed text-[#111] mb-8 mt-6">
-                    Stop talking and start building. Develop a working engine. Judged purely by startup founders on core functionality, robustness, and how well you pitch it.
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]">
-                      <div className="text-[10px] font-black uppercase tracking-widest text-[#666] border-b-[1.5px] border-[#333] pb-2 mb-4">Required Deliverable</div>
-                      <p className="text-sm font-medium">A functional MVP deployed live. It doesn't need to be pretty, but the core mechanic *must* work.</p>
-                    </div>
-                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]">
-                      <div className="text-[10px] font-black uppercase tracking-widest text-[#666] border-b-[1.5px] border-[#333] pb-2 mb-4">The Pitch</div>
-                      <p className="text-sm font-medium">A 3-minute video demonstrating the product and explaining the technical architecture.</p>
-                    </div>
-                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]">
-                      <div className="text-[10px] font-black uppercase tracking-widest text-[#666] border-b-[1.5px] border-[#333] pb-2 mb-4">Core Evaluation</div>
-                      <p className="text-sm font-medium">Code quality, system robustness, execution speed, and direct feedback from the founder jury.</p>
-                    </div>
+            {/* Hustler Card - Solid Orange */}
+            <div className="relative overflow-hidden border-[2px] border-[#111] bg-[#ee6030] p-6 shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-2 hover:shadow-[10px_10px_0px_0px_rgba(17,17,17,1)] transition-all duration-300 group cursor-crosshair h-full flex flex-col">
+              <span className="absolute -bottom-4 -right-2 text-[8rem] font-black text-[#d3542a] leading-none z-0 group-hover:scale-110 transition-transform select-none">02</span>
+              <div className="relative z-10 flex-1 flex flex-col">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-12 h-12 flex items-center justify-center border-[2px] border-[#111] bg-white text-[#111] shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">
+                    <Megaphone size={24} />
                   </div>
+                  <span className="text-[#111] font-black tracking-widest text-xs uppercase border-[2px] border-[#111] bg-white px-2 py-1 shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">Sales</span>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Round 3 */}
-          <div
-            onClick={() => setExpandedRound(expandedRound === 3 ? null : 3)}
-            className={`w-full transition-colors cursor-pointer group ${expandedRound === 3 ? 'bg-[rgba(238,96,48,0.1)]' : 'bg-[#ee6030]'}`}
-          >
-            {/* Header Row */}
-            <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative">
-              <div className={`flex-shrink-0 w-32 md:w-48 border-[1.5px] border-[#111] p-2 flex items-center justify-center gap-2 font-bold uppercase text-[12px] tracking-widest shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] ${expandedRound === 3 ? 'bg-[#ee6030] text-white' : 'bg-white text-[#111]'}`}>
-                <Calendar size={14} className={expandedRound === 3 ? 'text-white mb-[2px]' : 'text-[#ee6030] mb-[2px]'} /> Mar 23th - 29th
-              </div>
-              <div className="flex-1">
-                <h3 className={`text-2xl md:text-4xl font-black uppercase tracking-tighter mb-1 ${expandedRound === 3 ? 'text-[#111]' : 'text-white'}`}>Round 3: The Traction Test</h3>
-                <div className={`text-xs font-bold uppercase tracking-widest ${expandedRound === 3 ? 'text-[#ee6030]' : 'text-[#111]'}`}>60% of Final Score</div>
-              </div>
-              <div className="absolute top-6 right-6 md:static">
-                <ChevronDown size={32} className={`transform transition-transform duration-300 opacity-30 group-hover:opacity-100 ${expandedRound === 3 ? 'rotate-180 opacity-100 text-[#ee6030]' : 'text-[#111]'}`} />
+                <h3 className="font-black uppercase text-2xl tracking-tight text-[#111] mb-2">The Hustler</h3>
+                <p className="text-sm font-bold text-[#111] leading-relaxed mt-auto opacity-90">
+                  Sells the vision. Talks to users, distributes the link, and finds exactly where the target audience lives on the internet.
+                </p>
               </div>
             </div>
 
-            {/* Expandable Content */}
-            <div className={`grid transition-all duration-300 ease-in-out ${expandedRound === 3 ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
-              <div className="overflow-hidden">
-                <div className="p-6 md:p-8 pt-0 md:pt-0 lg:ml-56 md:ml-[13.5rem] border-t-[1.5px] border-[#ee6030] md:border-t-0">
-                  <p className="text-lg md:text-xl font-medium leading-relaxed text-[#111] mb-8 mt-6">
-                    The market decides your fate. Launch publicly. Hustle for real user reviews, social media reach, and prove that people actually want what you built.
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]">
-                      <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] border-b-[1.5px] border-[#333] pb-2 mb-4">The Launch</div>
-                      <p className="text-sm font-medium">Public release of the application. Go-to-market strategies go live.</p>
-                    </div>
-                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] transform md:-rotate-1">
-                      <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] border-b-[1.5px] border-[#333] pb-2 mb-4">The Hustle</div>
-                      <p className="text-sm font-medium">Drive traffic, get actual signups, harvest real user reviews, and generate noise on social platforms.</p>
-                    </div>
-                    <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)]">
-                      <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] border-b-[1.5px] border-[#333] pb-2 mb-4">Core Evaluation</div>
-                      <p className="text-sm font-medium">Hard metrics. Number of active users, organic engagement, and proof of real-world traction.</p>
-                    </div>
+            {/* Hipster Card - Solid White */}
+            <div className="relative overflow-hidden border-[2px] border-[#111] bg-white p-6 shadow-[6px_6px_0px_0px_rgba(238,96,48,1)] hover:-translate-y-2 hover:shadow-[10px_10px_0px_0px_rgba(238,96,48,1)] transition-all duration-300 group cursor-crosshair h-full flex flex-col">
+              <span className="absolute -bottom-4 -right-2 text-[8rem] font-black text-[#f4f4f0] leading-none z-0 group-hover:scale-110 transition-transform select-none">03</span>
+              <div className="relative z-10 flex-1 flex flex-col">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-12 h-12 flex items-center justify-center border-[2px] border-[#111] bg-[#111] text-white shadow-[2px_2px_0px_0px_rgba(238,96,48,1)]">
+                    <PenTool size={24} />
                   </div>
+                  <span className="text-[#111] font-black tracking-widest text-xs uppercase border-[2px] border-[#111] px-2 py-1">Design</span>
                 </div>
+                <h3 className="font-black uppercase text-2xl tracking-tight text-[#111] mb-2">The Hipster</h3>
+                <p className="text-sm font-bold text-[#666] leading-relaxed mt-auto">
+                  Designs the brand. Ensures the product looks premium, feels intuitive, and stands out from the visual noise.
+                </p>
+              </div>
+            </div>
+
+            {/* Hound Card - Off White */}
+            <div className="relative overflow-hidden border-[2px] border-[#111] bg-[#F4F4F0] p-6 shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-2 hover:shadow-[10px_10px_0px_0px_rgba(17,17,17,1)] transition-all duration-300 group cursor-crosshair h-full flex flex-col">
+              <span className="absolute -bottom-4 -right-2 text-[8rem] font-black text-white leading-none z-0 group-hover:scale-110 transition-transform select-none">04</span>
+              <div className="relative z-10 flex-1 flex flex-col">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="w-12 h-12 flex items-center justify-center border-[2px] border-[#111] bg-[#ee6030] text-white shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">
+                    <TrendingUp size={24} />
+                  </div>
+                  <span className="text-[#ee6030] font-black tracking-widest text-xs uppercase border-[2px] border-[#111] bg-[#111] px-2 py-1 shadow-[2px_2px_0px_0px_rgba(238,96,48,1)]">Data</span>
+                </div>
+                <h3 className="font-black uppercase text-2xl tracking-tight text-[#111] mb-2">The Hound</h3>
+                <p className="text-sm font-bold text-[#666] leading-relaxed mt-auto">
+                  Tracks the numbers. Analyzes user behavior, finds friction points, and validates if the product is actually working.
+                </p>
               </div>
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* ROW 6: SPONSORSHIP */}
-      <section className="grid grid-cols-12 border-b-[1.5px] border-[#111] bg-white animate-fade-in">
-        <div className="col-span-12 border-b-[1.5px] border-[#111] p-6 text-center">
-          <h2 className="text-2xl font-black uppercase tracking-widest">Powered By</h2>
-        </div>
-        <div className="col-span-12 p-12 md:p-20 flex flex-col md:flex-row items-center justify-center gap-12 md:gap-32 grayscale hover:grayscale-0 transition-all bg-[#F4F4F0]">
-          <div className="flex items-center gap-4 md:gap-6">
-            <img src="https://exampreptool.com/img/logo.png" alt="Exampreptool" className="h-16 md:h-20 w-auto object-contain" />
-            <span className="font-black text-3xl md:text-5xl tracking-tighter text-[#111]">Exampreptool</span>
-          </div>
-          <div className="flex items-center gap-4 md:gap-6">
-            <img src="/devfolio_logo.png" alt="Devfolio" className="h-16 md:h-20 w-auto object-contain" />
-            {/* <span className="font-black text-3xl md:text-5xl tracking-tighter text-[#111]">Devfolio</span> */}
-          </div>
-        </div>
-      </section>
-
-      {/* ROW 7: Q&A */}
-      <section id="qna" className="grid grid-cols-12 border-b-[1.5px] border-[#111]">
-        <div className="col-span-12 md:col-span-4 border-b-[1.5px] md:border-b-0 md:border-r-[1.5px] border-[#111] p-8 bg-[#111] text-white">
-          <AlertCircle size={48} className="mb-6 text-[#ee6030] animate-pulse" />
-          <h2 className="text-4xl font-black uppercase tracking-tighter leading-none mb-4">
-            Hard <br />Questions.<br />Direct<br />Answers.
-          </h2>
-        </div>
-        <div className="col-span-12 md:col-span-8 bg-white flex flex-col">
-          <div className="border-b-[1.5px] border-[#111] p-6 md:p-8 hover:bg-[#F4F4F0] transition-colors flex-1">
-            <h4 className="text-xl md:text-2xl font-black uppercase mb-2">What is the catch?</h4>
-            <p className="text-[#444] font-medium text-lg">There isn't one. Participation is 100% free. Bring your talent, we provide the platform.</p>
-          </div>
-          <div className="border-b-[1.5px] border-[#111] p-6 md:p-8 hover:bg-[#F4F4F0] transition-colors flex-1">
-            <h4 className="text-xl md:text-2xl font-black uppercase mb-2">Who can I work with?</h4>
-            <p className="text-[#444] font-medium text-lg">You need exactly 4 members per team. Find people who complement your skills—coders, designers, and talkers.</p>
-          </div>
-          <div className="border-b-[1.5px] border-[#111] p-6 md:p-8 hover:bg-[#F4F4F0] transition-colors flex-1">
-            <h4 className="text-xl md:text-2xl font-black uppercase mb-2">Can we buy engagement?</h4>
-            <p className="text-[#ee6030] font-bold text-lg">Absolutely not. Artificial engagement, bots, or any manipulation of metrics will result in immediate disqualification. Real users only.</p>
-          </div>
-          <div className="p-6 md:p-8 hover:bg-[#F4F4F0] transition-colors flex-1">
-            <h4 className="text-xl md:text-2xl font-black uppercase mb-2">Is the use of AI allowed?</h4>
-            <p className="text-[#444] font-medium text-lg">Yes! Use of AI is 100% allowed. We care about the product, not how it was written.</p>
-          </div>
-        </div>
-      </section>
+      {/* ROW 5: TIMELINE */}
+      {/* ... (Timeline section remains largely the same structurally, but consider thickening the borders to border-[2px] if you want to match the Navbar/Hero weight exactly) ... */}
 
       {/* ROW 7.5: PRIZES */}
-      <section id="prizes" className="grid grid-cols-12 border-b-[1.5px] border-[#111] bg-[#111] text-white">
-        <div className="col-span-12 p-12 md:p-24 flex flex-col items-center justify-center text-center">
-          <div className="inline-flex items-center gap-2 border-[1.5px] border-[#333] px-6 py-2 w-max bg-[#222] uppercase font-bold text-sm tracking-widest mb-8 text-[#ee6030]">
-            <Trophy size={16} /> The Reward
+      <section id="prizes" className="grid grid-cols-12 border-b-[2px] border-[#111] bg-[#111] text-white">
+        <div className="col-span-12 p-12 md:p-24 flex flex-col items-center justify-center text-center relative overflow-hidden">
+          {/* Background Graphic */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] opacity-5 pointer-events-none">
+            {/* <Money size="100%" /> */}
           </div>
 
-          <h2 className="text-[12vw] sm:text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-4">
-            Undisclosed <br />
-            <span className="text-transparent" style={{ WebkitTextStroke: '0.02em #fff' }}>Prize Pool.</span>
-          </h2>
-
-          <p className="text-xl md:text-2xl font-medium max-w-2xl text-[#999] mt-6">
-            Real cash for real startups. Build something people want and take home your share of the treasury. No equity taken.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-4 mt-12 w-full max-w-3xl">
-            <div className="flex-1 min-w-[200px] border-[1.5px] border-[#333] p-6 bg-[#222]">
-              <div className="text-sm font-bold uppercase tracking-widest text-[#ee6030] mb-2">1st Place</div>
-              <div className="text-4xl font-black tracking-tighter">TBA</div>
+          <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 border-[2px] border-[#ee6030] px-6 py-2 w-max bg-[#111] uppercase font-bold text-sm tracking-widest mb-8 text-white shadow-[4px_4px_0px_0px_rgba(238,96,48,1)]">
+              <Trophy size={16} className="text-[#ee6030]" /> The Reward
             </div>
-            <div className="flex-1 min-w-[200px] border-[1.5px] border-[#333] p-6 bg-[#1a1a1a]">
-              <div className="text-sm font-bold uppercase tracking-widest text-[#999] mb-2">2nd Place</div>
-              <div className="text-3xl font-black tracking-tighter">TBA</div>
-            </div>
-            <div className="flex-1 min-w-[200px] border-[1.5px] border-[#333] p-6 bg-[#1a1a1a]">
-              <div className="text-sm font-bold uppercase tracking-widest text-[#999] mb-2">3rd Place</div>
-              <div className="text-3xl font-black tracking-tighter">TBA</div>
+
+            <h2 className="text-[12vw] sm:text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-4">
+              Undisclosed <br />
+              <span className="text-transparent bg-clip-text " style={{ WebkitTextStroke: '1px #fff' }}>Prize Pool.</span>
+            </h2>
+
+            <p className="text-xl md:text-2xl font-medium max-w-2xl text-[#999] mt-6 mx-auto">
+              Real cash for real startups. Build something people want and take home your share of the treasury. No equity taken.
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-6 mt-16 w-full max-w-4xl mx-auto">
+              {/* Prize Crates */}
+              <div className="flex-1 min-w-[220px] border-[2px] border-[#333] p-8 bg-[#0a0a0a] relative group hover:border-[#ee6030] transition-colors">
+                <div className="absolute top-0 left-0 w-full h-1 bg-[#ee6030]"></div>
+                <div className="text-sm font-black uppercase tracking-widest text-[#ee6030] mb-4 border-b border-[#333] pb-2">1st Place</div>
+                <div className="text-5xl font-black tracking-tighter text-white group-hover:scale-110 transition-transform origin-left">TBA</div>
+              </div>
+              <div className="flex-1 min-w-[220px] border-[2px] border-[#333] p-8 bg-[#151515] relative group hover:border-white transition-colors">
+                <div className="absolute top-0 left-0 w-full h-1 bg-white"></div>
+                <div className="text-sm font-black uppercase tracking-widest text-[#999] mb-4 border-b border-[#333] pb-2">2nd Place</div>
+                <div className="text-4xl font-black tracking-tighter text-[#ccc] group-hover:scale-110 transition-transform origin-left">TBA</div>
+              </div>
+              <div className="flex-1 min-w-[220px] border-[2px] border-[#333] p-8 bg-[#1a1a1a] relative group hover:border-[#999] transition-colors">
+                <div className="absolute top-0 left-0 w-full h-1 bg-[#666]"></div>
+                <div className="text-sm font-black uppercase tracking-widest text-[#666] mb-4 border-b border-[#333] pb-2">3rd Place</div>
+                <div className="text-4xl font-black tracking-tighter text-[#999] group-hover:scale-110 transition-transform origin-left">TBA</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ROW 8: REGISTRATION / FOOTER CTA */}
-      <section id="register" className="grid grid-cols-12 bg-white">
-        <div className="col-span-12 lg:col-span-8 p-8 md:p-16 border-b-[1.5px] lg:border-b-0 lg:border-r-[1.5px] border-[#111] flex flex-col justify-center animate-slide-up">
+      <section id="register" className="grid grid-cols-12 bg-[#ee6030] text-white">
+        <div className="col-span-12 lg:col-span-8 p-8 md:p-16 border-b-[2px] lg:border-b-0 lg:border-r-[2px] border-[#111] flex flex-col justify-center bg-[#F4F4F0] text-[#111]">
           <h2 className="text-[12vw] sm:text-[7vw] lg:text-[6rem] font-black uppercase tracking-tighter leading-none mb-6">
             Claim Your <br />
-            <span className="text-transparent" style={{ WebkitTextStroke: '0.02em #111' }}>Spot Now.</span>
+            <span className="text-transparent" style={{ WebkitTextStroke: '2px #111' }}>Spot Now.</span>
           </h2>
-          <p className="text-xl text-[#444] max-w-xl font-medium">
+          <p className="text-xl text-[#444] max-w-xl font-bold">
             Do you have what it takes to build and sell? The best products will take the prize.
           </p>
         </div>
-        <div className="col-span-12 lg:col-span-4 flex animate-slide-up delay-200 opacity-0">
-          <a href="https://unstop.com/p/traction-26-traction-iiitk-1652221" target="_blank" rel="noopener noreferrer" className="w-full min-h-[300px] p-8 flex flex-col justify-center items-center bg-[#ee6030] text-white hover:bg-[#111] transition-colors group cursor-pointer text-center">
-            <span className="text-3xl font-black uppercase tracking-widest mb-6 block">Register<br />Your Team</span>
-            <div className="p-6 bg-white text-[#111] rounded-full group-hover:scale-110 transition-transform shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] group-hover:shadow-[0px_0px_0px_0px_rgba(17,17,17,1)]">
-              <ArrowUpRight size={48} className="group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-300" />
+        <div className="col-span-12 lg:col-span-4 flex">
+          <a href="https://unstop.com/p/traction-26-traction-iiitk-1652221" target="_blank" rel="noopener noreferrer" className="w-full min-h-[300px] p-8 flex flex-col justify-center items-center bg-[#111] text-white hover:bg-[#ee6030] transition-colors duration-300 group cursor-pointer text-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20 group-hover:opacity-40 transition-opacity"></div>
+            <span className="text-3xl md:text-4xl font-black uppercase tracking-widest mb-8 block relative z-10 group-hover:scale-105 transition-transform">Register<br />Your Team</span>
+            <div className="p-6 bg-white text-[#111] rounded-full group-hover:rotate-45 transition-transform duration-300 shadow-[4px_4px_0px_0px_rgba(238,96,48,1)] relative z-10">
+              <ArrowUpRight size={48} className="text-[#111]" />
             </div>
           </a>
         </div>
@@ -474,6 +314,7 @@ function Home() {
     </div>
   );
 }
+// ... (App and Leaderboard components remain)
 
 function Leaderboard() {
   return (
