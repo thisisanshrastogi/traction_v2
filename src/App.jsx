@@ -402,7 +402,7 @@ function Home() {
         <div className="col-span-12 p-12 md:p-24 flex items-center justify-center grayscale hover:grayscale-0 transition-all bg-[#F4F4F0]">
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
             <img src="https://exampreptool.com/img/logo.png" alt="Exampreptool" className="h-24 md:h-32 w-auto object-contain" />
-            <span className="font-black text-4xl md:text-6xl tracking-tighter text-[#111]">Exampreptool</span>
+            <a href="https://exampreptool.com" target="_blank" rel="noopener noreferrer" className="font-black text-4xl md:text-6xl tracking-tighter text-[#111] hover:opacity-80 transition-opacity">Exampreptool</a>
           </div>
         </div>
       </section>
