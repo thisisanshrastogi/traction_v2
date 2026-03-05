@@ -40,11 +40,11 @@ function Navbar() {
       </div>
       {/* Registration CTA */}
       <div className="col-span-4 md:col-span-3 flex bg-[#ee6030]">
-        <Link to={isHome ? "#register" : "/"} className="w-full h-full p-4 md:p-6 flex items-center justify-center gap-2 font-black uppercase tracking-tighter text-sm md:text-xl text-white hover:bg-[#111] transition-colors group">
+        <a href="https://unstop.com/p/traction-26-traction-iiitk-1652221" target="_blank" rel="noopener noreferrer" className="w-full h-full p-4 md:p-6 flex items-center justify-center gap-2 font-black uppercase tracking-tighter text-sm md:text-xl text-white hover:bg-[#111] transition-colors group">
           <span className="hidden md:inline">Register</span>
           <span className="md:hidden text-xs">Join</span>
           <ArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform w-4 h-4 md:w-6 md:h-6" />
-        </Link>
+        </a>
       </div>
     </nav>
   );
@@ -135,29 +135,80 @@ function Home() {
           </div>
         </div>
 
-        {/* For Whom */}
-        <div className="col-span-12 lg:col-span-6 p-8 md:p-16 bg-[#F4F4F0] animate-slide-up delay-100 opacity-0 flex flex-col justify-center">
-          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-8">
-            The Dream Team
-          </h2>
-          <p className="text-xl font-medium leading-relaxed mb-8">
-            Pure coders will fail here. You need hustlers. We are looking for teams of 4 who command attention and possess the ultimate entrepreneurial trifecta:
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="border-[1.5px] border-[#111] bg-white p-4 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] transition-all flex flex-col justify-center text-center">
-              <Terminal size={32} className="mb-4 text-[#ee6030] mx-auto" />
-              <h3 className="font-black uppercase text-lg">The Hacker</h3>
-              <p className="text-[10px] font-bold uppercase tracking-widest mt-2 text-[#666]">Builds the MVP</p>
+        {/* For Whom / Dream Team Redesign */}
+        <div className="col-span-12 lg:col-span-6 p-8 md:p-16 bg-[#F4F4F0] animate-slide-up delay-100 flex flex-col justify-center border-t-[1.5px] lg:border-t-0 border-[#111]">
+          <div className="mb-10 md:mb-12">
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-8">
+              The Dream Team
+            </h2>
+            <p className="text-xl font-medium leading-relaxed text-[#111] max-w-lg">
+              Pure coders will fail here. You need hustlers. We are looking for squads of 4 who command attention and possess the ultimate entrepreneurial trifecta.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-auto">
+            {/* Hacker Card */}
+            <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:border-[#ee6030] transition-all duration-300 group flex flex-col justify-between cursor-default">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-10 h-10 flex shrink-0 items-center justify-center border-[1.5px] border-[#111] bg-[#F4F4F0] shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">
+                  <Terminal size={20} className="text-[#ee6030]" />
+                </div>
+                <div>
+                  <h3 className="font-black uppercase text-xl tracking-tight text-[#111]">The Hacker</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#ee6030]">Architecture & Code</p>
+                </div>
+              </div>
+              <p className="text-sm font-medium text-[#444] leading-relaxed">
+                Builds the MVP. Cares about shipping fast, building robust systems, and making the core application loop work flawlessly.
+              </p>
             </div>
-            <div className="border-[1.5px] border-[#111] bg-white p-4 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] transition-all flex flex-col justify-center text-center">
-              <Megaphone size={32} className="mb-4 text-[#ee6030] mx-auto" />
-              <h3 className="font-black uppercase text-lg">The Hustler</h3>
-              <p className="text-[10px] font-bold uppercase tracking-widest mt-2 text-[#666]">Sells the Vision</p>
+
+            {/* Hustler Card */}
+            <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:border-[#ee6030] transition-all duration-300 group flex flex-col justify-between cursor-default">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-10 h-10 flex shrink-0 items-center justify-center border-[1.5px] border-[#111] bg-[#F4F4F0] shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">
+                  <Megaphone size={20} className="text-[#ee6030]" />
+                </div>
+                <div>
+                  <h3 className="font-black uppercase text-xl tracking-tight text-[#111]">The Hustler</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#ee6030]">Sales & Growth</p>
+                </div>
+              </div>
+              <p className="text-sm font-medium text-[#444] leading-relaxed">
+                Sells the vision. Talks to users, distributes the link, and finds exactly where the target audience lives on the internet.
+              </p>
             </div>
-            <div className="border-[1.5px] border-[#111] bg-white p-4 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] transition-all flex flex-col justify-center text-center">
-              <PenTool size={32} className="mb-4 text-[#ee6030] mx-auto" />
-              <h3 className="font-black uppercase text-lg">The Hipster</h3>
-              <p className="text-[10px] font-bold uppercase tracking-widest mt-2 text-[#666]">Designs Brand</p>
+
+            {/* Hipster Card */}
+            <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:border-[#ee6030] transition-all duration-300 group flex flex-col justify-between cursor-default">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-10 h-10 flex shrink-0 items-center justify-center border-[1.5px] border-[#111] bg-[#F4F4F0] shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">
+                  <PenTool size={20} className="text-[#ee6030]" />
+                </div>
+                <div>
+                  <h3 className="font-black uppercase text-xl tracking-tight text-[#111]">The Hipster</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#ee6030]">Design & Brand</p>
+                </div>
+              </div>
+              <p className="text-sm font-medium text-[#444] leading-relaxed">
+                Designs the brand. Ensures the product looks premium, feels intuitive, and stands out from the visual noise.
+              </p>
+            </div>
+
+            {/* Hound Card */}
+            <div className="border-[1.5px] border-[#111] bg-white p-6 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:border-[#ee6030] transition-all duration-300 group flex flex-col justify-between cursor-default">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-10 h-10 flex shrink-0 items-center justify-center border-[1.5px] border-[#111] bg-[#F4F4F0] shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">
+                  <TrendingUp size={20} className="text-[#ee6030]" />
+                </div>
+                <div>
+                  <h3 className="font-black uppercase text-xl tracking-tight text-[#111]">The Hound</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#ee6030]">Data & Metrics</p>
+                </div>
+              </div>
+              <p className="text-sm font-medium text-[#444] leading-relaxed">
+                Tracks the numbers. Analyzes user behavior, finds friction points, and validates if the product is actually working.
+              </p>
             </div>
           </div>
         </div>
@@ -360,7 +411,7 @@ function Home() {
           </div>
 
           <h2 className="text-[12vw] sm:text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-4">
-            ₹1 Lakh <br />
+            Undisclosed <br />
             <span className="text-transparent" style={{ WebkitTextStroke: '0.02em #fff' }}>Prize Pool.</span>
           </h2>
 
@@ -371,15 +422,15 @@ function Home() {
           <div className="flex flex-wrap justify-center gap-4 mt-12 w-full max-w-3xl">
             <div className="flex-1 min-w-[200px] border-[1.5px] border-[#333] p-6 bg-[#222]">
               <div className="text-sm font-bold uppercase tracking-widest text-[#ee6030] mb-2">1st Place</div>
-              <div className="text-4xl font-black tracking-tighter">₹50,000</div>
+              <div className="text-4xl font-black tracking-tighter">TBA</div>
             </div>
             <div className="flex-1 min-w-[200px] border-[1.5px] border-[#333] p-6 bg-[#1a1a1a]">
               <div className="text-sm font-bold uppercase tracking-widest text-[#999] mb-2">2nd Place</div>
-              <div className="text-3xl font-black tracking-tighter">₹30,000</div>
+              <div className="text-3xl font-black tracking-tighter">TBA</div>
             </div>
             <div className="flex-1 min-w-[200px] border-[1.5px] border-[#333] p-6 bg-[#1a1a1a]">
               <div className="text-sm font-bold uppercase tracking-widest text-[#999] mb-2">3rd Place</div>
-              <div className="text-3xl font-black tracking-tighter">₹20,000</div>
+              <div className="text-3xl font-black tracking-tighter">TBA</div>
             </div>
           </div>
         </div>
@@ -397,7 +448,7 @@ function Home() {
           </p>
         </div>
         <div className="col-span-12 lg:col-span-4 flex animate-slide-up delay-200 opacity-0">
-          <a href="#" className="w-full min-h-[300px] p-8 flex flex-col justify-center items-center bg-[#ee6030] text-white hover:bg-[#111] transition-colors group cursor-pointer text-center">
+          <a href="https://unstop.com/p/traction-26-traction-iiitk-1652221" target="_blank" rel="noopener noreferrer" className="w-full min-h-[300px] p-8 flex flex-col justify-center items-center bg-[#ee6030] text-white hover:bg-[#111] transition-colors group cursor-pointer text-center">
             <span className="text-3xl font-black uppercase tracking-widest mb-6 block">Register<br />Your Team</span>
             <div className="p-6 bg-white text-[#111] rounded-full group-hover:scale-110 transition-transform shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] group-hover:shadow-[0px_0px_0px_0px_rgba(17,17,17,1)]">
               <ArrowUpRight size={48} className="group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-300" />
