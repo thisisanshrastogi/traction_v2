@@ -6,9 +6,11 @@ import '@fontsource/inter/700.css';
 import '@fontsource/inter/900.css';
 import './index.css'
 import App from './App.jsx'
+import Test from './Test.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    {/* <Test /> */}
     <App />
   </StrictMode>,
 )

@@ -149,7 +149,7 @@ function Home() {
           <div className="p-8 md:p-12  text-[#111] flex flex-col justify-center">
             <h3 className="text-sm font-bold uppercase tracking-widest text-[#ee6030] mb-6 border-[2px] border-[#111] w-max px-3 py-1 bg-white shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">Organized By</h3>
             <p className="text-2xl md:text-4xl font-black uppercase tracking-tight leading-none mb-6">
-              GOOGLE DEVELOPERS GROUP ON CAMPUS <br />
+              GOOGLE DEVELOPER GROUPS ON CAMPUS <br />
 
               <span className="text-[#666] text-xl md:text-2xl tracking-widest">IIIT Kottayam</span>
             </p>
@@ -264,7 +264,7 @@ function Home() {
             {/* Header Row */}
             <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative">
               <div className="flex-shrink-0 w-32 md:w-48 border-[1.5px] border-[#111] bg-white p-2 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] flex items-center justify-center gap-2 font-bold uppercase text-[12px] tracking-widest">
-                <Calendar size={14} className="text-[#ee6030] mb-[2px]" /> March 14th
+                <Calendar size={14} className="text-[#ee6030] mb-[2px]" /> March 21th
               </div>
               <div className="flex-1">
                 <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-1">Round 1: The Pitch & Plan</h3>
@@ -309,7 +309,7 @@ function Home() {
             {/* Header Row */}
             <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative">
               <div className="flex-shrink-0 w-32 md:w-48 border-[1.5px] border-[#111] bg-white p-2 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] flex items-center justify-center gap-2 font-bold uppercase text-[12px] tracking-widest">
-                <Calendar size={14} className="text-[#ee6030] mb-[2px]" /> Mar 16th - 22nd
+                <Calendar size={14} className="text-[#ee6030] mb-[2px]" /> Mar 23rd - 29th
               </div>
               <div className="flex-1">
                 <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-1">Round 2: The Tech Prototype</h3>
@@ -354,7 +354,7 @@ function Home() {
             {/* Header Row */}
             <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative">
               <div className={`flex-shrink-0 w-32 md:w-48 border-[1.5px] border-[#111] p-2 flex items-center justify-center gap-2 font-bold uppercase text-[12px] tracking-widest shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] ${expandedRound === 3 ? 'bg-[#ee6030] text-white' : 'bg-white text-[#111]'}`}>
-                <Calendar size={14} className={expandedRound === 3 ? 'text-white mb-[2px]' : 'text-[#ee6030] mb-[2px]'} /> Mar 23th - 29th
+                <Calendar size={14} className={expandedRound === 3 ? 'text-white mb-[2px]' : 'text-[#ee6030] mb-[2px]'} /> Mar 30th - April 5th
               </div>
               <div className="flex-1">
                 <h3 className={`text-2xl md:text-4xl font-black uppercase tracking-tighter mb-1 ${expandedRound === 3 ? 'text-[#111]' : 'text-white'}`}>Round 3: The Traction Test</h3>
