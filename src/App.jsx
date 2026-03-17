@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   ArrowUpRight,
+  ArrowDown,
   Terminal,
   Megaphone,
   PenTool,
@@ -15,32 +16,65 @@ import {
   TrendingUp,
   BarChart2,
   ChevronDown,
-  Cpu
+  Cpu,
+  Hash,
+  Zap,
+  Star,
+  X,
+  Circle,
+  Square,
+  Minus
 } from 'lucide-react';
+
+/* ── GLOBAL NOISE OVERLAY ── */
+function NoiseOverlay() {
+  return <div className="noise-overlay" aria-hidden="true" />;
+}
 
 function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isHome = location.pathname === '/';
+
+  const handleTimelineClick = (e) => {
+    e.preventDefault();
+    if (!isHome) {
+      navigate('/');
+      setTimeout(() => {
+        document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <nav className="grid grid-cols-12 border-b-[2px] border-[#111] sticky top-0 bg-white z-50">
       {/* Logo */}
-      <Link to="/" className="col-span-12 md:col-span-3 border-b-[2px] md:border-b-0 md:border-r-[2px] border-[#111] p-4 md:p-6 flex items-center bg-[#111] text-white hover:bg-[#ee6030] transition-colors group">
-        <span className="font-black uppercase tracking-tighter text-2xl group-hover:scale-105 transition-transform">Traction '26</span>
+      <Link to="/" className="col-span-12 md:col-span-3 border-b-[2px] md:border-b-0 md:border-r-[2px] border-[#111] p-4 md:p-6 flex items-center bg-[#111] text-white hover:bg-[#ee6030] transition-colors group relative overflow-hidden">
+        <span className="font-black uppercase tracking-tighter text-2xl group-hover:scale-105 transition-transform nav-glitch">Traction '26</span>
+        <span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#ee6030] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
       </Link>
       {/* Links */}
       <div className="col-span-8 md:col-span-6 border-r-[2px] border-[#111] flex">
-        <a href={isHome ? "#timeline" : "/#timeline"} className="flex-1 p-4 md:p-6 border-r-[2px] border-[#111] flex items-center justify-center font-bold uppercase tracking-widest text-xs hover:bg-[#F4F4F0] transition-colors">
-          Timeline
+        <a href="#timeline" onClick={handleTimelineClick} className={`flex-1 p-4 md:p-6 border-r-[2px] border-[#111] flex items-center justify-center font-bold uppercase tracking-widest text-[10px] sm:text-xs hover:bg-[#F4F4F0] transition-colors relative nav-glitch ${!isHome ? '' : ''}`}>
+          <span className="hidden sm:inline">Timeline</span>
+          <span className="sm:hidden">Plan</span>
         </a>
-        <Link to="/leaderboard" className="flex-1 p-4 md:p-6 flex items-center justify-center gap-2 font-bold uppercase tracking-widest text-[10px] sm:text-xs hover:bg-[#F4F4F0] transition-colors text-center leading-tight">
-          <span className="hidden sm:inline">Leaderboard</span>
-          <span className="sm:hidden">Ranks</span>
-          <span className="w-2 h-2 bg-[#ee6030] rounded-full animate-pulse border border-[#111] shrink-0"></span>
+        <Link to="/news" className={`flex-1 p-4 md:p-6 border-r-[2px] border-[#111] flex items-center justify-center gap-1 sm:gap-2 font-bold uppercase tracking-widest text-[10px] sm:text-xs hover:bg-[#F4F4F0] transition-colors leading-tight group relative ${location.pathname === '/news' ? 'bg-[#F4F4F0]' : ''}`}>
+          <span className="w-2 h-2 bg-[#ee6030] rounded-full animate-pulse border border-[#111] shrink-0 group-hover:scale-125 transition-transform shadow-[0_0_6px_rgba(238,96,48,0.5)]"></span>
+          <span className="hidden sm:inline text-[#ee6030] nav-glitch">Updates</span>
+          <span className="sm:hidden text-[#ee6030]">News</span>
+          {location.pathname === '/news' && <span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#ee6030]"></span>}
+        </Link>
+        <Link to="/leaderboard" className={`flex-1 p-4 md:p-6 flex items-center justify-center gap-1 sm:gap-2 font-bold uppercase tracking-widest text-[10px] sm:text-xs hover:bg-[#F4F4F0] transition-colors text-center leading-tight relative ${location.pathname === '/leaderboard' ? 'bg-[#F4F4F0]' : ''}`}>
+          <span className="hidden md:inline nav-glitch">Leaderboard</span>
+          <span className="md:hidden">Ranks</span>
+          {location.pathname === '/leaderboard' && <span className="absolute bottom-0 left-0 w-full h-[3px] bg-[#ee6030]"></span>}
         </Link>
       </div>
       {/* Registration CTA */}
-      <div className="col-span-4 md:col-span-3 flex bg-[#ee6030] relative overflow-hidden group">
+      <div className="col-span-4 md:col-span-3 flex bg-[#ee6030] relative overflow-hidden group pulse-border">
         <div className="absolute inset-0 bg-[#111] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
         <a href="https://unstop.com/p/traction-26-traction-iiitk-1652221" target="_blank" rel="noopener noreferrer" className="relative z-10 w-full h-full p-4 md:p-6 flex items-center justify-center gap-2 font-black uppercase tracking-tighter text-sm md:text-xl text-white transition-colors">
           <span className="hidden md:inline">Register</span>
@@ -84,71 +118,101 @@ function Home() {
         {/* Left / Main Headline */}
         <div className="col-span-12 lg:col-span-9 border-b-[2px] lg:border-b-0 lg:border-r-[2px] border-[#111] p-6 sm:p-8 md:p-16 lg:p-24 flex flex-col justify-center min-h-[50vh] lg:min-h-[60vh] bg-[#F4F4F0] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] relative overflow-hidden">
 
-          <div className="inline-flex items-center gap-2 border-[2px] border-[#111] px-3 py-1 sm:px-4 sm:py-2 w-max bg-white uppercase font-bold text-[10px] sm:text-xs tracking-widest mb-8 sm:mb-12 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] relative z-10">
-            <span className="w-2 h-2 bg-[#ee6030] rounded-full animate-pulse"></span>
-            Registrations Open • 100% Free
-          </div>
+          <Link to="/news" className="inline-flex items-center gap-2 border-[2px] border-[#111] px-3 py-1 sm:px-4 sm:py-2 w-max bg-[#ee6030] text-white uppercase font-bold text-[10px] sm:text-xs tracking-widest mb-8 sm:mb-12 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] transition-all cursor-pointer relative z-10 group animate-stagger-in stagger-1">
+            <span className="w-2 h-2 bg-white rounded-full animate-pulse border border-[#111] shadow-[0_0_6px_rgba(255,255,255,0.5)]"></span>
+            SCHEDULE UPDATE: REVISED EVENT TIMELINE
+          </Link>
 
           <h1 className="text-[12vw] sm:text-7xl md:text-8xl lg:text-[7.5rem] leading-[0.85] font-black tracking-tighter uppercase text-[#111] relative z-10 mix-blend-multiply">
-            Popularity <br />
-            <span className="text-transparent bg-clip-text " style={{ WebkitTextStroke: '2px #111' }}>Over</span> <br />
-            Perfection.
+            <span className="inline-block animate-stagger-in stagger-2">Popularity </span><br />
+            <span className="inline-block animate-stagger-in stagger-3 text-transparent bg-clip-text" style={{ WebkitTextStroke: '2px #111' }}>Over</span> <br />
+            <span className="inline-block animate-stagger-in stagger-4">Perfection.</span>
           </h1>
+
+          <p className="mt-8 text-xs md:text-sm sm:text-base font-bold uppercase tracking-widest text-[#666] relative z-10 animate-stagger-in stagger-5">
+            <span className="text-[#ee6030]">// </span>Where distribution beats perfection<span className="typewriter-cursor"></span>
+          </p>
+
+          {/* Scroll indicator */}
+          {/* <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 animate-stagger-in stagger-6">
+            <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#999]">Scroll</span>
+            <ArrowDown size={20} className="text-[#ee6030] scroll-indicator" />
+          </div> */}
         </div>
 
         {/* Right / Quick Stats */}
         <div className="col-span-12 lg:col-span-3 flex flex-col">
-          <div className="flex-1 border-b-[2px] border-[#111] p-8 md:p-12 bg-[#ee6030] text-white flex flex-col justify-center relative overflow-hidden group">
-            <Target size={120} className="absolute -right-10 -bottom-10 opacity-10 group-hover:scale-110 transition-transform duration-500" />
+          <div className="flex-1 border-b-[2px] border-[#111] p-8 md:p-12 bg-[#ee6030] hover:bg-[#111] transition-colors duration-300 text-white flex flex-col justify-center relative overflow-hidden group cursor-crosshair">
+            <Target size={120} className="absolute -right-10 -bottom-10 opacity-10 group-hover:scale-110 group-hover:rotate-12 group-hover:opacity-20 transition-all duration-500" />
             <div className="relative z-10">
-              <div className="text-xs font-bold uppercase tracking-widest mb-3 text-[#111] bg-white w-max px-2 py-1 border-[1.5px] border-[#111] shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">The Core Rule</div>
+              <div className="text-xs font-bold uppercase tracking-widest mb-3 text-[#111] bg-white group-hover:bg-[#ee6030] group-hover:text-white transition-colors duration-300 w-max px-2 py-1 border-[1.5px] border-[#111] shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">The Core Rule</div>
               <p className="font-black text-2xl md:text-3xl uppercase leading-tight tracking-tighter">
                 The best code doesn't win. The loudest product does.
               </p>
             </div>
           </div>
           <div className="flex-1 p-8 md:p-12 flex flex-col justify-center bg-[#111] text-white relative overflow-hidden">
-            <div className="text-sm font-bold uppercase tracking-widest mb-4 text-[#ee6030]">Global Scale</div>
-            <div className="font-black text-6xl md:text-7xl tracking-tighter leading-none mb-2">800<span className="text-[#ee6030]">+</span></div>
-            <p className="mt-2 text-xs font-bold uppercase tracking-widest opacity-70">Expected Builders</p>
+            <span className="stamp stamp-orange absolute -right-4 top-1/2 -translate-y-1/2 rotate-[-90deg]">800+</span>
+            <div className="text-sm font-bold uppercase tracking-widest mb-4 text-[#ee6030] relative z-10">Global Scale</div>
+            <div className="font-black text-6xl md:text-7xl tracking-tighter leading-none mb-2 number-label relative z-10">800<span className="text-[#ee6030]">+</span></div>
+            <p className="mt-2 text-xs font-bold uppercase tracking-widest opacity-70 relative z-10">Expected Builders</p>
           </div>
         </div>
       </header>
 
-      {/* ROW 3: TICKER TAPE */}
-      <div className="border-b-[2px] border-[#111] bg-[#111] text-[#ee6030] py-3 overflow-hidden">
-        <div className="animate-[ticker_20s_linear_infinite] inline-flex whitespace-nowrap text-sm md:text-base font-black uppercase tracking-widest items-center">
-          {[...Array(6)].map((_, i) => (
-            <React.Fragment key={i}>
-              <span className="mx-8">Code is a liability</span>
-              <Plus size={16} className="text-white" />
-              <span className="mx-8">Distribution is an asset</span>
-              <Plus size={16} className="text-white" />
-              <span className="mx-8 text-white">Validate before you build</span>
-              <Plus size={16} className="text-[#ee6030]" />
-            </React.Fragment>
-          ))}
+      {/* ROW 3: TICKER TAPE — DUAL DIRECTION */}
+      <div className="border-b-[2px] border-[#111] bg-[#111] text-[#ee6030] overflow-hidden">
+        {/* Row 1 → */}
+        <div className="py-3 border-b border-[#333]">
+          <div className="animate-[ticker_20s_linear_infinite] inline-flex whitespace-nowrap text-sm md:text-base font-black uppercase tracking-widest items-center">
+            {[...Array(6)].map((_, i) => (
+              <React.Fragment key={i}>
+                <span className="mx-8">Code is a liability</span>
+                <Zap size={14} className="text-white" />
+                <span className="mx-8">Distribution is an asset</span>
+                <Zap size={14} className="text-[#ee6030]" />
+                <span className="mx-8 text-white">Validate before you build</span>
+                <Zap size={14} className="text-white" />
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+        {/* Row 2 ← (Reverse) */}
+        <div className="py-3">
+          <div className="animate-[ticker-reverse_25s_linear_infinite] inline-flex whitespace-nowrap text-sm md:text-base font-black uppercase tracking-widest items-center text-[#666]">
+            {[...Array(6)].map((_, i) => (
+              <React.Fragment key={i}>
+                <span className="mx-8">Ship fast or die slow</span>
+                <Star size={12} className="text-[#ee6030]" />
+                <span className="mx-8 text-[#555]">Users &gt; Features</span>
+                <Star size={12} className="text-[#444]" />
+                <span className="mx-8 text-[#ee6030]">Traction is everything</span>
+                <Star size={12} className="text-[#666]" />
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* ROW 4: ABOUT & ORGANIZERS */}
       <section className="grid grid-cols-12 border-b-[2px] border-[#111]">
         {/* About */}
-        <div className="col-span-12 lg:col-span-6 border-b-[2px] lg:border-b-0 lg:border-r-[2px] border-[#111] flex flex-col bg-white">
-          <div className="p-8 md:p-16 flex-1 border-b-[2px] border-[#111]">
+        <div className="col-span-12 lg:col-span-6 border-b-[2px] lg:border-b-0 lg:border-r-[2px] border-[#111] flex flex-col bg-white relative overflow-hidden">
+          <span className="stamp absolute -right-8 top-4 select-none" style={{ fontSize: 'clamp(10rem, 25vw, 20rem)' }}>01</span>
+          <div className="p-8 md:p-16 flex-1 border-b-[2px] border-[#111] relative z-10">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter mb-8 decoration-[#ee6030] underline decoration-[6px] underline-offset-8">
               The Reality Check
             </h2>
             <p className="text-xl md:text-2xl font-medium leading-relaxed mb-6 text-[#111]">
-              Traction ’26 isn't just another hackathon. It is a three-round startup simulator designed to force you through the actual journey of bringing a product to market.
+              Traction '26 isn't just another hackathon. It is a three-round startup simulator designed to force you through the actual journey of bringing a product to market.
             </p>
             <p className="text-lg md:text-xl font-medium leading-relaxed text-[#666]">
               Every weekend, engineers lock themselves in rooms to build immaculate architectures that die on Monday. We are killing the "build it and they will come" myth. Figure out who is buying before you decide what you are selling.
             </p>
           </div>
-          <div className="p-8 md:p-12  text-[#111] flex flex-col justify-center">
+          <div className="p-8 md:p-12  text-[#111] flex flex-col justify-center relative z-10">
             <h3 className="text-sm font-bold uppercase tracking-widest text-[#ee6030] mb-6 border-[2px] border-[#111] w-max px-3 py-1 bg-white shadow-[2px_2px_0px_0px_rgba(17,17,17,1)]">Organized By</h3>
-            <p className="text-2xl md:text-4xl font-black uppercase tracking-tight leading-none mb-6">
+            <p className="text-2xl md:text-4xl font-black uppercase tracking-tighter leading-none mb-6">
               GOOGLE DEVELOPER GROUPS ON CAMPUS <br />
 
               <span className="text-[#666] text-xl md:text-2xl tracking-widest">IIIT Kottayam</span>
@@ -174,8 +238,9 @@ function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-auto relative z-10">
-            {/* Hacker Card - Black & Orange */}
-            <div className="relative overflow-hidden border-[2px] border-[#333] bg-[#0a0a0a] p-6 shadow-[6px_6px_0px_0px_rgba(238,96,48,1)] hover:-translate-y-2 hover:shadow-[10px_10px_0px_0px_rgba(238,96,48,1)] hover:border-[#ee6030] transition-all duration-300 group cursor-crosshair h-full flex flex-col">
+            {/* Hacker Card */}
+            <div className="relative overflow-hidden border-[2px] border-[#333] bg-[#0a0a0a] p-6 shadow-[6px_6px_0px_0px_rgba(238,96,48,1)] hover:-translate-y-2 hover:rotate-[-1deg] hover:shadow-[10px_10px_0px_0px_rgba(238,96,48,1)] hover:border-[#ee6030] transition-all duration-300 group cursor-crosshair h-full flex flex-col animate-stagger-in stagger-1">
+              <span className="absolute top-2 right-2 text-[8px] font-black uppercase tracking-widest bg-[#ee6030] text-white px-2 py-0.5 border border-[#111] z-20 rotate-2">Essential</span>
               <span className="absolute -bottom-4 -right-2 text-[8rem] font-black text-[#1a1a1a] leading-none z-0 group-hover:scale-110 transition-transform select-none">01</span>
               <div className="relative z-10 flex-1 flex flex-col">
                 <div className="flex justify-between items-start mb-6">
@@ -191,8 +256,9 @@ function Home() {
               </div>
             </div>
 
-            {/* Hustler Card - Solid Orange */}
-            <div className="relative overflow-hidden border-[2px] border-[#111] bg-[#ee6030] p-6 shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-2 hover:shadow-[10px_10px_0px_0px_rgba(17,17,17,1)] transition-all duration-300 group cursor-crosshair h-full flex flex-col">
+            {/* Hustler Card */}
+            <div className="relative overflow-hidden border-[2px] border-[#111] bg-[#ee6030] p-6 shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-2 hover:rotate-[1deg] hover:shadow-[10px_10px_0px_0px_rgba(17,17,17,1)] transition-all duration-300 group cursor-crosshair h-full flex flex-col animate-stagger-in stagger-2">
+              <span className="absolute top-2 right-2 text-[8px] font-black uppercase tracking-widest bg-[#111] text-white px-2 py-0.5 border border-[#333] z-20 -rotate-1">Critical</span>
               <span className="absolute -bottom-4 -right-2 text-[8rem] font-black text-[#d3542a] leading-none z-0 group-hover:scale-110 transition-transform select-none">02</span>
               <div className="relative z-10 flex-1 flex flex-col">
                 <div className="flex justify-between items-start mb-6">
@@ -208,8 +274,9 @@ function Home() {
               </div>
             </div>
 
-            {/* Hipster Card - Solid White */}
-            <div className="relative overflow-hidden border-[2px] border-[#111] bg-white p-6 shadow-[6px_6px_0px_0px_rgba(238,96,48,1)] hover:-translate-y-2 hover:shadow-[10px_10px_0px_0px_rgba(238,96,48,1)] transition-all duration-300 group cursor-crosshair h-full flex flex-col">
+            {/* Hipster Card */}
+            <div className="relative overflow-hidden border-[2px] border-[#111] bg-white p-6 shadow-[6px_6px_0px_0px_rgba(238,96,48,1)] hover:-translate-y-2 hover:rotate-[1.5deg] hover:shadow-[10px_10px_0px_0px_rgba(238,96,48,1)] transition-all duration-300 group cursor-crosshair h-full flex flex-col animate-stagger-in stagger-3">
+              <span className="absolute top-2 right-2 text-[8px] font-black uppercase tracking-widest bg-white text-[#111] px-2 py-0.5 border-[1.5px] border-[#111] z-20 rotate-1 shadow-[2px_2px_0px_0px_rgba(238,96,48,1)]">Key</span>
               <span className="absolute -bottom-4 -right-2 text-[8rem] font-black text-[#f4f4f0] leading-none z-0 group-hover:scale-110 transition-transform select-none">03</span>
               <div className="relative z-10 flex-1 flex flex-col">
                 <div className="flex justify-between items-start mb-6">
@@ -225,8 +292,9 @@ function Home() {
               </div>
             </div>
 
-            {/* Hound Card - Off White */}
-            <div className="relative overflow-hidden border-[2px] border-[#111] bg-[#F4F4F0] p-6 shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-2 hover:shadow-[10px_10px_0px_0px_rgba(17,17,17,1)] transition-all duration-300 group cursor-crosshair h-full flex flex-col">
+            {/* Hound Card */}
+            <div className="relative overflow-hidden border-[2px] border-[#111] bg-[#F4F4F0] p-6 shadow-[6px_6px_0px_0px_rgba(17,17,17,1)] hover:-translate-y-2 hover:rotate-[-1.5deg] hover:shadow-[10px_10px_0px_0px_rgba(17,17,17,1)] transition-all duration-300 group cursor-crosshair h-full flex flex-col animate-stagger-in stagger-4">
+              <span className="absolute top-2 right-2 text-[8px] font-black uppercase tracking-widest bg-[#ee6030] text-white px-2 py-0.5 border border-[#111] z-20 -rotate-2">Vital</span>
               <span className="absolute -bottom-4 -right-2 text-[8rem] font-black text-white leading-none z-0 group-hover:scale-110 transition-transform select-none">04</span>
               <div className="relative z-10 flex-1 flex flex-col">
                 <div className="flex justify-between items-start mb-6">
@@ -248,9 +316,13 @@ function Home() {
 
       {/* ROW 5: TIMELINE & ROUNDS */}
       <section id="timeline" className="flex flex-col border-b-[1.5px] border-[#111]">
-        <div className="border-b-[1.5px] border-[#111] p-6 md:p-8 bg-[#111] text-white flex flex-col sm:flex-row sm:justify-between items-start sm:items-end gap-2">
-          <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter">The Battle Plan</h2>
-          <span className="text-xs font-bold tracking-widest uppercase opacity-50">3 Phases to Win</span>
+        <div className="border-b-[1.5px] border-[#111] p-6 md:p-8 bg-[#111] text-white flex flex-col sm:flex-row sm:justify-between items-start sm:items-end gap-2 relative overflow-hidden">
+          <span className="stamp stamp-orange absolute right-4 top-1/2 -translate-y-1/2 hidden lg:block">PLAN</span>
+          <div className="relative z-10">
+            <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter">The Battle Plan</h2>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#666] mt-1"><span className="text-[#ee6030]">// </span>Your roadmap to victory</p>
+          </div>
+          <span className="text-xs font-bold tracking-widest uppercase opacity-50 relative z-10">3 Phases to Win</span>
         </div>
 
         {/* Vertical Accordion Container */}
@@ -262,9 +334,10 @@ function Home() {
             className={`w-full border-b-[1.5px] border-[#111] transition-colors cursor-pointer group ${expandedRound === 1 ? 'bg-white' : 'bg-white hover:bg-[#F4F4F0]'}`}
           >
             {/* Header Row */}
-            <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative">
+            <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative overflow-hidden">
+              {/* <spa  n className="absolute -right-4 top-1/2 -translate-y-1/2 text-[8rem] md:text-[12rem] font-black text-[#F4F4F0] leading-none select-none number-label pointer-events-none">01</span> */}
               <div className="flex-shrink-0 w-32 md:w-48 border-[1.5px] border-[#111] bg-white p-2 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] flex items-center justify-center gap-2 font-bold uppercase text-[12px] tracking-widest">
-                <Calendar size={14} className="text-[#ee6030] mb-[2px]" /> March 21th
+                <Calendar size={14} className="text-[#ee6030] mb-[2px]" /> Summer '26
               </div>
               <div className="flex-1">
                 <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-1">Round 1: The Pitch & Plan</h3>
@@ -307,14 +380,17 @@ function Home() {
             className={`w-full border-b-[1.5px] border-[#111] transition-colors cursor-pointer group ${expandedRound === 2 ? 'bg-white' : 'bg-white hover:bg-[#F4F4F0]'}`}
           >
             {/* Header Row */}
-            <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative">
+            <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative overflow-hidden">
+              {/* <span className="absolute -right-4 top-1/2 -translate-y-1/2 text-[8rem] md:text-[12rem] font-black text-[#F4F4F0] leading-none select-none number-label pointer-events-none">02</span> */}
               <div className="flex-shrink-0 w-32 md:w-48 border-[1.5px] border-[#111] bg-white p-2 shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] flex items-center justify-center gap-2 font-bold uppercase text-[12px] tracking-widest">
-                <Calendar size={14} className="text-[#ee6030] mb-[2px]" /> Mar 23rd - 29th
+                <Calendar size={14} className="text-[#ee6030] mb-[2px]" /> Summer '26
               </div>
               <div className="flex-1">
                 <h3 className="text-2xl md:text-4xl font-black uppercase tracking-tighter mb-1">Round 2: The Tech Prototype</h3>
-                <div className="text-xs font-bold uppercase tracking-widest text-[#ee6030]">40% of Final Score</div>
+
+                <div className="text-xs font-bold uppercase tracking-widest text-[#ee6030]">Build your Product</div>
               </div>
+
               <div className="absolute top-6 right-6 md:static">
                 <ChevronDown size={32} className={`transform transition-transform duration-300 opacity-30 group-hover:opacity-100 ${expandedRound === 2 ? 'rotate-180 opacity-100 text-[#ee6030]' : ''}`} />
               </div>
@@ -352,16 +428,17 @@ function Home() {
             className={`w-full border-b-[1.5px] border-[#111] transition-colors cursor-pointer group ${expandedRound === 3 ? 'bg-white' : 'bg-[#ee6030]'}`}
           >
             {/* Header Row */}
-            <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative">
+            <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 lg:gap-16 relative overflow-hidden">
+              {/* <span className="absolute -right-4 top-1/2 -translate-y-1/2 text-[8rem] md:text-[12rem] font-black leading-none select-none number-label pointer-events-none" style={{ color: expandedRound === 3 ? '#F4F4F0' : 'rgba(255,255,255,0.1)' }}>03</span> */}
               <div className={`flex-shrink-0 w-32 md:w-48 border-[1.5px] border-[#111] p-2 flex items-center justify-center gap-2 font-bold uppercase text-[12px] tracking-widest shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] ${expandedRound === 3 ? 'bg-[#ee6030] text-white' : 'bg-white text-[#111]'}`}>
-                <Calendar size={14} className={expandedRound === 3 ? 'text-white mb-[2px]' : 'text-[#ee6030] mb-[2px]'} /> Mar 30th - April 5th
+                <Calendar size={14} className={expandedRound === 3 ? 'text-white mb-[2px]' : 'text-[#ee6030] mb-[2px]'} /> Summer '26
               </div>
               <div className="flex-1">
                 <h3 className={`text-2xl md:text-4xl font-black uppercase tracking-tighter mb-1 ${expandedRound === 3 ? 'text-[#111]' : 'text-white'}`}>Round 3: The Traction Test</h3>
-                <div className={`text-xs font-bold uppercase tracking-widest ${expandedRound === 3 ? 'text-[#ee6030]' : 'text-[#111]'}`}>60% of Final Score</div>
+                <div className={`text-xs font-bold uppercase tracking-widest ${expandedRound === 3 ? 'text-[#ee6030]' : 'text-[#111]'}`}>Get Real Users</div>
               </div>
               <div className="absolute top-6 right-6 md:static">
-                <ChevronDown size={32} className={`transform transition-transform duration-300 opacity-30 group-hover:opacity-100 ${expandedRound === 3 ? 'rotate-180 opacity-100 text-[#ee6030]' : 'text-[#111]'}`} />
+                <ChevronDown size={32} className={`https://meet.google.com/bvb-dkkp-oiutransform transition-transform duration-300 opacity-30 group-hover:opacity-100 ${expandedRound === 3 ? 'rotate-180 opacity-100 text-[#ee6030]' : 'text-[#111]'}`} />
               </div>
             </div>
 
@@ -396,10 +473,12 @@ function Home() {
 
       {/* ROW 6: SPONSORSHIP */}
       <section className="grid grid-cols-12 border-b-[1.5px] border-[#111] bg-white animate-fade-in">
-        <div className="col-span-12 border-b-[1.5px] border-[#111] p-6 text-center">
+        <div className="col-span-12 border-b-[1.5px] border-[#111] p-6 text-center relative">
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] font-bold tracking-widest text-[#ccc] hidden md:block number-label">SEC.06</span>
           <h2 className="text-2xl font-black uppercase tracking-widest">Powered By</h2>
+          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold tracking-widest text-[#ccc] hidden md:block number-label">SPONSOR</span>
         </div>
-        <div className="col-span-12 p-12 md:p-24 flex items-center justify-center grayscale hover:grayscale-0 transition-all bg-[#F4F4F0]">
+        <div className="col-span-12 p-12 md:p-24 flex items-center justify-center grayscale hover:grayscale-0 transition-all bg-[#F4F4F0] crop-marks relative">
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
             <img src="https://exampreptool.com/img/logo.png" alt="Exampreptool" className="h-24 md:h-32 w-auto object-contain" />
             <a href="https://exampreptool.com" target="_blank" rel="noopener noreferrer" className="font-black text-4xl md:text-6xl tracking-tighter text-[#111] hover:opacity-80 transition-opacity">Exampreptool</a>
@@ -409,38 +488,35 @@ function Home() {
 
       {/* ROW 7: Q&A */}
       <section id="qna" className="grid grid-cols-12 border-b-[1.5px] border-[#111]">
-        <div className="col-span-12 md:col-span-4 border-b-[1.5px] md:border-b-0 md:border-r-[1.5px] border-[#111] p-8 bg-[#111] text-white">
-          <AlertCircle size={48} className="mb-6 text-[#ee6030] animate-pulse" />
-          <h2 className="text-4xl font-black uppercase tracking-tighter leading-none mb-4">
+        <div className="col-span-12 md:col-span-4 border-b-[1.5px] md:border-b-0 md:border-r-[1.5px] border-[#111] p-8 bg-[#111] text-white relative overflow-hidden">
+          {/* <span className="stamp stamp-orange absolute -right-4 bottom-4 rotate-[-15deg] hidden md:block" style={{ fontSize: '5rem' }}>CLASSIFIED</span> */}
+          <AlertCircle size={48} className="mb-6 text-[#ee6030] animate-pulse relative z-10" />
+          <h2 className="text-4xl font-black uppercase tracking-tighter leading-none mb-4 relative z-10">
             Hard <br />Questions.<br />Direct<br />Answers.
           </h2>
         </div>
         <div className="col-span-12 md:col-span-8 bg-white flex flex-col">
-          <div className="border-b-[1.5px] border-[#111] p-6 md:p-8 hover:bg-[#F4F4F0] transition-colors flex-1">
-            <h4 className="text-xl md:text-2xl font-black uppercase mb-2">What is the catch?</h4>
-            <p className="text-[#444] font-medium text-lg">There isn't one. Participation is 100% free. Bring your talent, we provide the platform.</p>
-          </div>
-          <div className="border-b-[1.5px] border-[#111] p-6 md:p-8 hover:bg-[#F4F4F0] transition-colors flex-1">
-            <h4 className="text-xl md:text-2xl font-black uppercase mb-2">Who can I work with?</h4>
-            <p className="text-[#444] font-medium text-lg">You need exactly 4 members per team. Find people who complement your skills—coders, designers, and talkers.</p>
-          </div>
-          <div className="border-b-[1.5px] border-[#111] p-6 md:p-8 hover:bg-[#F4F4F0] transition-colors flex-1">
-            <h4 className="text-xl md:text-2xl font-black uppercase mb-2">Can we buy engagement?</h4>
-            <p className="text-[#ee6030] font-bold text-lg">Absolutely not. Artificial engagement, bots, or any manipulation of metrics will result in immediate disqualification. Real users only.</p>
-          </div>
-          <div className="p-6 md:p-8 hover:bg-[#F4F4F0] transition-colors flex-1">
-            <h4 className="text-xl md:text-2xl font-black uppercase mb-2">Is the use of AI allowed?</h4>
-            <p className="text-[#444] font-medium text-lg">Yes! Use of AI is 100% allowed. We care about the product, not how it was written.</p>
-          </div>
+          {[
+            { q: 'What is the catch?', a: "There isn't one. Participation is 100% free. Bring your talent, we provide the platform.", warn: false },
+            { q: 'Who can I work with?', a: 'You need exactly 4 members per team. Find people who complement your skills\u2014coders, designers, and talkers.', warn: false },
+            { q: 'Can we buy engagement?', a: 'Absolutely not. Artificial engagement, bots, or any manipulation of metrics will result in immediate disqualification. Real users only.', warn: true },
+            { q: 'Is the use of AI allowed?', a: 'Yes! Use of AI is 100% allowed. We care about the product, not how it was written.', warn: false }
+          ].map((item, i) => (
+            <div key={i} className={`${i < 3 ? 'border-b-[1.5px] border-[#111]' : ''} p-6 md:p-8 hover:bg-[#F4F4F0] transition-colors flex-1 flex gap-4 md:gap-6 items-start group`}>
+              {/* <span className="number-label text-2xl md:text-3xl font-black text-[#F4F4F0] group-hover:text-[#ee6030] transition-colors shrink-0 leading-none mt-1 select-none border-[1.5px] border-[#eee] group-hover:border-[#ee6030] w-14 h-14 flex items-center justify-center">Q{String(i + 1).padStart(2, '0')}</span> */}
+              <div>
+                <h4 className="text-xl md:text-2xl font-black uppercase mb-2">{item.q}</h4>
+                <p className={`${item.warn ? 'text-[#ee6030] font-bold' : 'text-[#444] font-medium'} text-lg`}>{item.a}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
       {/* ROW 7.5: PRIZES */}
       <section id="prizes" className="grid grid-cols-12 border-b-[2px] border-[#111] bg-[#111] text-white">
         <div className="col-span-12 p-12 md:p-24 flex flex-col items-center justify-center text-center relative overflow-hidden">
-          {/* Background Graphic */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] opacity-5 pointer-events-none">
-            {/* <Money size="100%" /> */}
-          </div>
+          {/* Trophy Watermark */}
+          <Trophy size={300} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-[0.02] pointer-events-none" strokeWidth={1} />
 
           <div className="relative z-10">
             <div className="inline-flex items-center gap-2 border-[2px] border-[#ee6030] px-6 py-2 w-max bg-[#111] uppercase font-bold text-sm tracking-widest mb-8 text-white shadow-[4px_4px_0px_0px_rgba(238,96,48,1)]">
@@ -448,8 +524,8 @@ function Home() {
             </div>
 
             <h2 className="text-[12vw] sm:text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none mb-4">
-              Undisclosed <br />
-              <span className="text-transparent bg-clip-text " style={{ WebkitTextStroke: '1px #fff' }}>Prize Pool.</span>
+              Cash Prizes <br />
+              <span className="text-transparent bg-clip-text " style={{ WebkitTextStroke: '1px #fff' }}>and Goodies.</span>
             </h2>
 
             <p className="text-xl md:text-2xl font-medium max-w-2xl text-[#999] mt-6 mx-auto">
@@ -460,18 +536,21 @@ function Home() {
               {/* Prize Crates */}
               <div className="flex-1 min-w-[220px] border-[2px] border-[#333] p-8 bg-[#0a0a0a] relative group hover:border-[#ee6030] transition-colors">
                 <div className="absolute top-0 left-0 w-full h-1 bg-[#ee6030]"></div>
+                <span className="absolute top-2 right-2 text-[8px] font-black uppercase tracking-widest bg-[#ee6030] text-white px-2 py-0.5 border border-[#111]">★ Gold</span>
                 <div className="text-sm font-black uppercase tracking-widest text-[#ee6030] mb-4 border-b border-[#333] pb-2">1st Place</div>
-                <div className="text-5xl font-black tracking-tighter text-white group-hover:scale-110 transition-transform origin-left">TBA</div>
+                <div className="text-5xl font-black tracking-tighter text-white group-hover:scale-110 transition-transform number-label" data-text="TBA">TBA</div>
               </div>
               <div className="flex-1 min-w-[220px] border-[2px] border-[#333] p-8 bg-[#151515] relative group hover:border-white transition-colors">
                 <div className="absolute top-0 left-0 w-full h-1 bg-white"></div>
+                <span className="absolute top-2 right-2 text-[8px] font-black uppercase tracking-widest bg-white text-[#111] px-2 py-0.5 border border-[#333]">Silver</span>
                 <div className="text-sm font-black uppercase tracking-widest text-[#999] mb-4 border-b border-[#333] pb-2">2nd Place</div>
-                <div className="text-4xl font-black tracking-tighter text-[#ccc] group-hover:scale-110 transition-transform origin-left">TBA</div>
+                <div className="text-4xl font-black tracking-tighter text-[#ccc] group-hover:scale-110 transition-transform number-label">TBA</div>
               </div>
               <div className="flex-1 min-w-[220px] border-[2px] border-[#333] p-8 bg-[#1a1a1a] relative group hover:border-[#999] transition-colors">
                 <div className="absolute top-0 left-0 w-full h-1 bg-[#666]"></div>
+                <span className="absolute top-2 right-2 text-[8px] font-black uppercase tracking-widest bg-[#333] text-[#999] px-2 py-0.5 border border-[#444]">Bronze</span>
                 <div className="text-sm font-black uppercase tracking-widest text-[#666] mb-4 border-b border-[#333] pb-2">3rd Place</div>
-                <div className="text-4xl font-black tracking-tighter text-[#999] group-hover:scale-110 transition-transform origin-left">TBA</div>
+                <div className="text-4xl font-black tracking-tighter text-[#999] group-hover:scale-110 transition-transform number-label">TBA</div>
               </div>
             </div>
           </div>
@@ -480,12 +559,16 @@ function Home() {
 
       {/* ROW 8: REGISTRATION / FOOTER CTA */}
       <section id="register" className="grid grid-cols-12 bg-[#ee6030] text-white">
-        <div className="col-span-12 lg:col-span-8 p-8 md:p-16 border-b-[2px] lg:border-b-0 lg:border-r-[2px] border-[#111] flex flex-col justify-center bg-[#F4F4F0] text-[#111]">
-          <h2 className="text-[12vw] sm:text-[7vw] lg:text-[6rem] font-black uppercase tracking-tighter leading-none mb-6">
+        <div className="col-span-12 lg:col-span-8 p-8 md:p-16 border-b-[2px] lg:border-b-0 lg:border-r-[2px] border-[#111] flex flex-col justify-center bg-[#F4F4F0] text-[#111] relative overflow-hidden">
+          {/* <span className="stamp absolute right-4 top-4 hidden lg:block rotate-[-8deg]" style={{ fontSize: '6rem', color: 'rgba(238,96,48,0.08)' }}>NOW</span> */}
+          <div className="inline-flex items-center gap-2 border-[2px] border-[#111] px-3 py-1 w-max bg-[#ee6030] text-white uppercase font-black text-[10px] tracking-widest mb-6 shadow-[3px_3px_0px_0px_rgba(17,17,17,1)] animate-pulse relative z-10">
+            <Zap size={12} /> Final Call
+          </div>
+          <h2 className="text-[12vw] sm:text-[7vw] lg:text-[6rem] font-black uppercase tracking-tighter leading-none mb-6 relative z-10">
             Claim Your <br />
             <span className="text-transparent" style={{ WebkitTextStroke: '2px #111' }}>Spot Now.</span>
           </h2>
-          <p className="text-xl text-[#444] max-w-xl font-bold">
+          <p className="text-xl text-[#444] max-w-xl font-bold relative z-10">
             Do you have what it takes to build and sell? The best products will take the prize.
           </p>
         </div>
@@ -493,8 +576,8 @@ function Home() {
           <a href="https://unstop.com/p/traction-26-traction-iiitk-1652221" target="_blank" rel="noopener noreferrer" className="w-full min-h-[300px] p-8 flex flex-col justify-center items-center bg-[#111] text-white hover:bg-[#ee6030] transition-colors duration-300 group cursor-pointer text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20 group-hover:opacity-40 transition-opacity"></div>
             <span className="text-3xl md:text-4xl font-black uppercase tracking-widest mb-8 block relative z-10 group-hover:scale-105 transition-transform">Register<br />Your Team</span>
-            <div className="p-6 bg-white text-[#111] rounded-full group-hover:rotate-45 transition-transform duration-300 shadow-[4px_4px_0px_0px_rgba(238,96,48,1)] relative z-10">
-              <ArrowUpRight size={48} className="text-[#111]" />
+            <div className="p-6 bg-white text-[#111] rounded-full group-hover:rotate-45 transition-transform duration-300 shadow-[4px_4px_0px_0px_rgba(238,96,48,1)] relative z-10 pulse-border">
+              <ArrowUpRight size={48} className="text-[#111] " />
             </div>
           </a>
         </div>
@@ -581,10 +664,113 @@ function Leaderboard() {
   );
 }
 
+function News() {
+  const [expandedNews, setExpandedNews] = useState(null);
+
+  const newsItems = [
+    {
+      id: 1,
+      date: 'March 17, 2026',
+      title: 'Schedule Revision',
+      category: 'Official Notice',
+      content: 'Please be advised that the event schedule has been updated. The new tentative date for the commencement of Traction \'26 is slated for May 16th. Further details regarding the revised timeline and subsequent rounds will be communicated in due course.',
+      important: true
+    },
+    {
+      id: 2,
+      date: 'March 4, 2026',
+      title: 'Registration Commencement',
+      category: 'Announcement',
+      content: 'Registrations for Traction \'26 are now officially open. We invite all prospective participants to assemble their teams and prepare for the upcoming phases. The competition seeks comprehensive skill sets across engineering, design, marketing, and analytics.',
+      important: false
+    }
+  ];
+
+  return (
+    <div className="animate-fade-in flex-1 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] min-h-[80vh] flex flex-col items-center p-4 md:p-8 relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
+        <div className="absolute top-[10%] right-[20%] w-64 h-64 bg-[#ee6030] rounded-full blur-[100px] mix-blend-multiply"></div>
+      </div>
+
+      <div className="max-w-4xl w-full relative z-10 animate-slide-up flex flex-col gap-6">
+
+        {/* Header */}
+        <div className="border-[1.5px] border-[#111] bg-[#111] p-8 md:p-12 shadow-[8px_8px_0px_0px_rgba(238,96,48,1)] flex flex-col relative overflow-hidden text-white">
+          <Megaphone className="absolute -right-6 -bottom-6 opacity-10" size={160} />
+
+          <div className="inline-flex items-center gap-2 border-[1.5px] border-[#ee6030] px-3 py-1 sm:px-4 sm:py-2 w-max bg-white text-[#111] uppercase font-bold text-[10px] sm:text-xs tracking-widest mb-6 shadow-[4px_4px_0px_0px_rgba(238,96,48,1)]">
+            <Radio size={14} className="text-[#ee6030] animate-pulse" />
+            Official Notices
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-4 leading-none text-white">
+            Press <br />
+            <span className="text-[#ee6030]">Room.</span>
+          </h1>
+
+          <p className="text-base sm:text-lg font-medium text-[#999] max-w-xl">
+            Latest announcements, schedule updates, and official communications from the Traction organizing committee.
+          </p>
+        </div>
+
+        {/* News Feed */}
+        <div className="flex flex-col w-full shadow-[8px_8px_0px_0px_rgba(17,17,17,1)] border-[1.5px] border-[#111] bg-white">
+          {newsItems.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => setExpandedNews(expandedNews === item.id ? null : item.id)}
+              className={`w-full border-b-[1.5px] border-[#111] last:border-b-0 transition-colors cursor-pointer group ${expandedNews === item.id ? 'bg-[#ffffff]' : 'hover:bg-[#F4F4F0]'}`}
+            >
+              <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 relative">
+                <div className={`flex-shrink-0 w-28 md:w-32 border-[1.5px] border-[#111] p-2 flex items-center justify-center gap-2 font-bold uppercase text-[10px] tracking-widest shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] ${item.important ? 'bg-[#ee6030] text-white' : 'bg-white text-[#111]'}`}>
+                  {item.date}
+                </div>
+                <div className="flex-1 md:pr-12">
+                  <div className="text-[10px] font-black uppercase tracking-widest text-[#ee6030] mb-1">{item.category}</div>
+                  <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight">{item.title}</h3>
+                </div>
+                <div className="absolute top-6 right-6 md:static">
+                  <ChevronDown size={24} className={`transform transition-transform duration-300 opacity-50 group-hover:opacity-100 ${expandedNews === item.id ? 'rotate-180 opacity-100 text-[#ee6030]' : 'text-[#111]'}`} />
+                </div>
+              </div>
+
+              {/* Expandable Content */}
+              <div className={`grid transition-all duration-300 ease-in-out ${expandedNews === item.id ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                <div className="overflow-hidden">
+                  <div className="p-6 md:p-8 pt-0 md:pt-0 md:ml-[9rem] mt-2">
+                    <p className="text-base md:text-lg font-medium leading-relaxed text-[#444]">
+                      {item.content}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="min-h-screen bg-[#F4F4F0] text-[#111] font-sans selection:bg-[#ee6030] selection:text-white p-3 sm:p-4 md:p-8">
+
+        {/* Global Noise Grain Overlay */}
+        <NoiseOverlay />
 
         {/* Main Structural Container - The Grid */}
         <div className="max-w-[1600px] mx-auto border-[1.5px] border-[#111] flex flex-col bg-white shadow-[4px_4px_0px_0px_rgba(17,17,17,1)] md:shadow-[8px_8px_0px_0px_rgba(17,17,17,1)] transition-all">
@@ -593,6 +779,7 @@ export default function App() {
 
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/news" element={<News />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
           </Routes>
 
@@ -600,10 +787,11 @@ export default function App() {
 
         {/* Tiny Footer */}
         <div className="max-w-[1600px] mx-auto mt-6 flex justify-between uppercase font-bold text-[10px] tracking-widest text-[#666]">
-          <span>© 2026 Traction Hackathon</span>
-          <span>Validation &gt; Code</span>
+          <span className="number-label">© 2026 Traction Hackathon</span>
+          <span className="flex items-center gap-2"><Minus size={10} className="text-[#ee6030]" /> Validation &gt; Code <Minus size={10} className="text-[#ee6030]" /></span>
         </div>
       </div>
     </BrowserRouter>
   );
 }
+
